@@ -120,6 +120,8 @@
 	var/mob/M = user.mob
 	if(!isliving(M))
 		return
+	if(M.cmode)
+		M.toggle_cmode()
 	if(M.m_intent == MOVE_INTENT_SNEAK)
 		M.toggle_rogmove_intent(MOVE_INTENT_WALK)
 	else

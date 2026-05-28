@@ -760,6 +760,8 @@
 		playsound_local(src, 'sound/misc/combon.ogg', 100)
 		if(length(L.cmode_music_override))
 			SSdroning.play_combat_music(L.cmode_music_override, client)
+		if(L.m_intent == MOVE_INTENT_SNEAK)
+			toggle_rogmove_intent(MOVE_INTENT_WALK, TRUE)
 		else if(L.cmode_music)
 			SSdroning.play_combat_music(L.cmode_music, client)
 		if(client && HAS_TRAIT(src, TRAIT_PSYCHOSIS))

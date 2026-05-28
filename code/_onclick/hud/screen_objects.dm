@@ -783,6 +783,8 @@
 /atom/movable/screen/rogmove/proc/toggle(mob/user)
 	if(isobserver(user))
 		return
+	if(user.cmode)
+		user.toggle_cmode()
 	if(user.m_intent == MOVE_INTENT_SNEAK)
 		user.toggle_rogmove_intent(MOVE_INTENT_WALK)
 	else
