@@ -213,7 +213,7 @@
 		"Darksight" = TRAIT_DARKVISION,
 		"Light Steps" = TRAIT_LIGHT_STEP,
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
-		"Sneak Skill (+2, Up to Legendary)" = /datum/skill/misc/sneaking,
+		"Sneak Skill (+2, Up to Expert)" = /datum/skill/misc/sneaking,
 		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking,
 		"Second Voice"
 		)
@@ -231,7 +231,7 @@
 						recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
 			else if(ispath(extra_choices[choice], /datum/skill))
 				if(extra_choices[choice] == /datum/skill/misc/sneaking)
-					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
+					recipient.adjust_skillrank_up_to(extra_choices[choice], SKILL_LEVEL_EXPERT, silent = TRUE)
 				else if(extra_choices[choice] == /datum/skill/misc/lockpicking)
 					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 			else if(ispath(extra_choices[choice], /obj/item))
