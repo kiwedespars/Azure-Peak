@@ -57,13 +57,20 @@
 		if(!filter)
 			owner.add_filter(RAGE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 120, "size" = 1))
 		owner.emote("rage", forced = TRUE)
+		ADD_TRAIT(owner, TRAIT_PSYCHOSIS, id)
+		ADD_TRAIT(owner, TRAIT_NOCSHADES, id)
 		to_chat(owner, span_notice("PAIN FUELS MY RAGE, MY BODY IS READY TO FIGHT!"))
 		playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
 
 /datum/status_effect/buff/rage/on_remove()
 	. = ..()
 	owner.remove_filter(RAGE_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, id)
+	REMOVE_TRAIT(owner, TRAIT_NOCSHADES, id)
 	to_chat(owner, span_warning("Rage subsides."))
+
+/datum/status_effect/buff/rage/tick()
+	update_effects()
 
 /datum/status_effect/buff/rage/proc/update_effects()
 	ragebuff = get_buff_value(owner)
