@@ -1354,6 +1354,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			target.forcesay(GLOB.hit_appends)
 		if(!nodmg)
 			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
+			if(target.mind)
+				target.dodgetime = (clamp(target.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
+				target.changeMaxDodge(5)
 
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
