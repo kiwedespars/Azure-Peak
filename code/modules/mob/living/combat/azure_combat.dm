@@ -5,25 +5,40 @@
 		bad_guard(span_warning("I hit myself."))
 		return
 	var/mob/living/carbon/human/H = user
-	if(!IU)	//The opponent is trying to rawdog us with their bare hands while we have Guard up. We get a free attack on their active hand.
+	if(!IU)	//The opponent is trying to rawdog us with their bare hands while we have Guard up. We get a riposte window.
 		if(!IM)	//We are also unarmed -- no clash or riposte without a weapon on the guarder's side.
+			apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+			apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+			if(mind)
+				dodgetime = clamp(dodgetime + 5, 0, CLICK_CD_HEAVY)
+			Slowdown(3)
 			remove_status_effect(/datum/status_effect/buff/clash)
+			to_chat(H, span_notice("[capitalize(p_theyre())] exposed!"))
+			playsound(H, 'sound/combat/clash_struck.ogg', 100)
+			H.remove_status_effect(/datum/status_effect/buff/clash)
+			H.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 			return
-		var/obj/item/bodypart/affecting = H.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
-		var/force = get_complex_damage(IM, src)
-		var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_L_HAND, used_intent.item_d_type, armor_penetration = used_intent.penfactor, damage = force, used_weapon = IM)
-		if(H.apply_damage(force, IM.damtype, affecting, armor_block))
-			visible_message(span_suicide("[src] gores [user]'s hands with \the [IM]!"))
-			affecting.bodypart_attacked_by(used_intent.blade_class, force, crit_message = TRUE, weapon = IM)
-		else
-			visible_message(span_suicide("[src] clashes into [user]'s hands with \the [IM]!"))
-		playsound(src, pick(used_intent.hitsound), 80)
+		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		if(H.mind)
+			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
+		H.Slowdown(3)
+		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
+		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		remove_status_effect(/datum/status_effect/buff/clash)
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		return
 	if(!IM)	//We are guarding unarmed but they have a weapon -- no clash, just consume the guard to block the hit.
 		visible_message(span_warning("[src] deflects [H]'s strike with [p_their()] bare hands!"))
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
+		var/sharpnesspenalty = RIPOSTE_SHARPNESS_FACTOR
+		if(IU.max_blade_int)
+			IU.remove_bintegrity((IU.blade_int * sharpnesspenalty), user)
+		else
+			var/integdam = max((IU.max_integrity / RIPOSTE_INTEG_DIVISOR), (INTEG_PARRY_DECAY_NOSHARP * 5))
+			if(IU.blade_dulling == DULLING_SHAFT_CONJURED)
+				integdam *= 2
+			IU.take_damage(integdam, BRUTE, IM.d_type)
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		if(H.mind)
