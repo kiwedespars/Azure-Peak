@@ -291,7 +291,7 @@
 	unique = TRUE
 	icon_state = "rune3"
 
-/obj/fae_trickery_trap/drop/Crossed(mob/living/carbon/AM)
+/obj/structure/fae_trickery_trap/drop/Crossed(mob/living/carbon/AM)
 	..()
 	if(iscarbon(AM) && owner)
 		if(AM != owner)
