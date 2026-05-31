@@ -1235,6 +1235,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			return
 
 		var/damage = user.get_punch_dmg()
+
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			damage += (damage * STRONG_STANCE_DMG_BONUS)
+
 		if(target.has_status_effect(/datum/status_effect/buff/clash) && ishuman(user))
 			var/obj/item/IM = target.get_active_held_item()
 			target.process_clash(user, IM)

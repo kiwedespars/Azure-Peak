@@ -367,6 +367,12 @@
 			else
 				// Unarmed attacker
 				var/intdam = INTEG_PARRY_DECAY_UNARMED
+				var/sharp_loss = SHARPNESS_ONHIT_DECAY
+
+				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+					sharp_loss += STRONG_SHP_BONUS
+					intdam += STRONG_INTG_BONUS
+
 				if(istype(used_weapon, /obj/item/rogueweapon/shield) && intenty)
 					intdam *= intenty.intent_intdamage_factor
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
