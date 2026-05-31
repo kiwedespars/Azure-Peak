@@ -36,6 +36,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
+	var/research_spent = 0
 	var/max_thralls = 1
 	var/thrall_count = 0
 
