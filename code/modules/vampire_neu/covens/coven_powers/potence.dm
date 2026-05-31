@@ -57,12 +57,10 @@
 /datum/coven_power/potence/one/activate()
 	. = ..()
 	owner.dna.species.punch_damage += 2
-	owner.potence_weapon_buff = 1
 
 /datum/coven_power/potence/one/deactivate()
 	. = ..()
 	owner.dna.species.punch_damage -= 2
-	owner.potence_weapon_buff = 0
 	do_deactivation_notification()
 
 //POTENCE 2
@@ -81,12 +79,10 @@
 /datum/coven_power/potence/two/activate()
 	. = ..()
 	owner.dna.species.punch_damage += 4
-	owner.potence_weapon_buff = 2
 
 /datum/coven_power/potence/two/deactivate()
 	. = ..()
 	owner.dna.species.punch_damage -= 4
-	owner.potence_weapon_buff = 0
 	do_deactivation_notification()
 
 //POTENCE 3
@@ -104,12 +100,10 @@
 /datum/coven_power/potence/three/activate()
 	. = ..()
 	owner.dna.species.punch_damage += 6
-	owner.potence_weapon_buff = 3
 
 /datum/coven_power/potence/three/deactivate()
 	. = ..()
 	owner.dna.species.punch_damage -= 6
-	owner.potence_weapon_buff = 0
 	do_deactivation_notification()
 
 //POTENCE 4
@@ -127,12 +121,10 @@
 /datum/coven_power/potence/four/activate()
 	. = ..()
 	owner.dna.species.punch_damage += 8
-	owner.potence_weapon_buff = 4
 
 /datum/coven_power/potence/four/deactivate()
 	. = ..()
 	owner.dna.species.punch_damage -= 8
-	owner.potence_weapon_buff = 0
 	do_deactivation_notification()
 
 
@@ -151,10 +143,8 @@
 /datum/coven_power/potence/five/activate()
 	. = ..()
 	owner.dna.species.punch_damage += 10
-	owner.potence_weapon_buff = 5
 
 /datum/coven_power/potence/five/deactivate()
 	. = ..()
 	owner.dna.species.punch_damage -= 10
-	owner.potence_weapon_buff = 0
 	do_deactivation_notification()
