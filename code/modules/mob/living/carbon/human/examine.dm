@@ -344,6 +344,9 @@
 				if (THEY_THEM, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
 
+		if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED) && user.mind?.has_antag_datum(/datum/antagonist/vampire))
+			. += span_redtext ("SILVER-BLOODED...")
+
 		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_userdanger("A MONSTER!")
