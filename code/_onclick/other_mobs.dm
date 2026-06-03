@@ -30,7 +30,7 @@
 	SEND_SIGNAL(src, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, A, proximity)
 	var/rmb_stam_penalty = 1
 	if(istype(rmb_intent, /datum/rmb_intent/strong) || istype(rmb_intent, /datum/rmb_intent/swift))
-		rmb_stam_penalty = 3	//Uses a modifer instead of a flat addition. 4 stam per swing as opposed to 10.
+		rmb_stam_penalty = 8	//Uses a modifer instead of a flat addition. 4 stam per swing as opposed to 10.
 	if(isliving(A))
 		var/mob/living/L = A
 		if(!used_intent.noaa)
