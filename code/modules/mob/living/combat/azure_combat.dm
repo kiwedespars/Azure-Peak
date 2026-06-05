@@ -29,7 +29,7 @@
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		return
 	if(!IM)	//We are guarding unarmed but they have a weapon -- no clash, just consume the guard to block the hit.
-		visible_message(span_warning("[src] deflects [H]'s strike with [p_their()] bare hands!"))
+		visible_message(span_warning("[src] ripostes [H]'s strike with [p_their()] bare hands!"))
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		var/sharpnesspenalty = RIPOSTE_SHARPNESS_FACTOR
 		if(IU.max_blade_int)
