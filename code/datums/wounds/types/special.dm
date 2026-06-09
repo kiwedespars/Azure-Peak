@@ -79,11 +79,6 @@
 	. = ..()
 	ADD_TRAIT(affected, TRAIT_CYCLOPS_RIGHT, "[type]")
 	affected.update_fov_angles()
-	if(affected.has_wound(/datum/wound/facial/eyes/left) && affected.has_wound(/datum/wound/facial/eyes/right))
-		var/obj/item/organ/my_eyes = affected.getorganslot(ORGAN_SLOT_EYES)
-		if(my_eyes)
-			my_eyes.Remove(affected)
-			my_eyes.forceMove(affected.drop_location())
 
 /datum/wound/facial/eyes/right/on_mob_loss(mob/living/affected)
 	. = ..()
