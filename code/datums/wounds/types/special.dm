@@ -78,11 +78,15 @@
 /datum/wound/facial/eyes/right/on_mob_gain(mob/living/affected)
 	. = ..()
 	ADD_TRAIT(affected, TRAIT_CYCLOPS_RIGHT, "[type]")
+	if(affected.has_wound(/datum/wound/facial/eyes/left) && affected.has_wound(/datum/wound/facial/eyes/right))
+		ADD_TRAIT(affected, TRAIT_BLIND, "[type]")
 	affected.update_fov_angles()
 
 /datum/wound/facial/eyes/right/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_CYCLOPS_RIGHT, "[type]")
+	if(!affected.has_wound(/datum/wound/facial/eyes/left) && !affected.has_wound(/datum/wound/facial/eyes/right))
+		REMOVE_TRAIT(affected, TRAIT_BLIND, "[type]")
 	affected.update_fov_angles()
 
 /datum/wound/facial/eyes/right/permanent
@@ -108,12 +112,17 @@
 /datum/wound/facial/eyes/left/on_mob_gain(mob/living/affected)
 	. = ..()
 	ADD_TRAIT(affected, TRAIT_CYCLOPS_LEFT, "[type]")
+	if(affected.has_wound(/datum/wound/facial/eyes/left) && affected.has_wound(/datum/wound/facial/eyes/right))
+		ADD_TRAIT(affected, TRAIT_BLIND, "[type]")
 	affected.update_fov_angles()
 
 /datum/wound/facial/eyes/left/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_CYCLOPS_LEFT, "[type]")
+	if(!affected.has_wound(/datum/wound/facial/eyes/left) && !affected.has_wound(/datum/wound/facial/eyes/right))
+		REMOVE_TRAIT(affected, TRAIT_BLIND, "[type]")
 	affected.update_fov_angles()
+	
 
 /datum/wound/facial/eyes/left/permanent
 	whp = null
