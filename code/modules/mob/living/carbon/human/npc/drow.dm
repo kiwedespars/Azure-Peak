@@ -6,6 +6,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_DODGE
+	blood_toll_bucket = STATS_KILLED_DROWS
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
@@ -102,7 +103,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	hair_color = "#DDDDDD"
 
 	head.add_bodypart_feature(new_hair)
-	head.sellprice = 40
+	head.sellprice = HEAD_BOUNTY_DROW
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
@@ -121,14 +122,12 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	else
 		real_name = pick(world.file2list("strings/rt/names/elf/elfdm.txt"))
 
-	faction += "spider_lowers"
-
 	update_hair()
 	update_body()
 
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
@@ -142,9 +141,9 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	else if(prob(50)) // dual falx
 		r_hand = /obj/item/rogueweapon/sword/falx/stalker
 		l_hand = /obj/item/rogueweapon/sword/falx/stalker
-	else // dual dirk
-		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
-		l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
+	else // dual daggers
+		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
+		l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 
 	H.STASTR = 12 // 6 Points
 	H.STASPD = 13 // 3 points
@@ -179,7 +178,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer)
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer/pre_equip(mob/living/carbon/human/H)
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
@@ -189,7 +188,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/arrows
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 	H.STASTR = 10
 	H.STASPD = 13
 	H.STACON = 9

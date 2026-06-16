@@ -139,6 +139,10 @@
 		dest = src.loc
 	if(!dest)
 		return
+	if(dest.is_blocked_turf(source_atom = A))
+		if(ismob(A))
+			to_chat(A, span_warning("Something is blocking the way."))
+		return
 	. = A.forceMove(dest)
 
 /obj/structure/fluff/railing/Initialize()
@@ -1238,7 +1242,7 @@
 /obj/structure/fluff/psycross/astrata/golden
 	name = "golden astratan cross"
 	icon_state = "cross_astrata_u"
-	desc = "A radiant monument of gold, devoted to Astrata in her full glory. It's surface gleams with an almost blinding brilliance, catching even the faintest light and casting it forth as a warm, unwavering glow."
+	desc = "A radiant monument of gold, devoted to Astrata in her full glory. Its surface gleams with an almost blinding brilliance, catching even the faintest light and casting it forth as a warm, unwavering glow."
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	max_integrity = 400
 	chance2hear = 20
@@ -1251,14 +1255,14 @@
 
 /obj/structure/fluff/psycross/zizocross/stone
 	name = "stone inverted cross"
-	desc = "An unholy symbol, the knowledge that something so sturdy was able to be put up in reverence of the dark star, completely unattended... is a difficult anchovy to swallow for many."
+	desc = "An unholy symbol. The knowledge that something so sturdy was able to be put up in reverence of the archlych, completely unattended, is a difficult anchovy to swallow for many."
 	icon_state = "cross_zizo_r"
 	divine = FALSE
 	max_integrity = 200
 
 /obj/structure/fluff/psycross/zizocross/golden
 	name = "golden inverted cross"
-	desc = "An unholy symbol meticilously plated with leaf gold. It stands in defiance to order. The dead will rise."
+	desc = "An unholy symbol meticulously plated with leaf gold. It stands in defiance to order. The dead will rise."
 	icon_state = "cross_zizo_u"
 	divine = FALSE
 	max_integrity = 350

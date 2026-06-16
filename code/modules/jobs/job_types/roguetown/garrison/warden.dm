@@ -7,7 +7,7 @@
 	spawn_positions = 4
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "You are a volunteer with the Wardens; a fraternity of rangers who keep a vigil over Azuria's untamed wilderness. \
 				While you may not be a professional soldier, you nevertheless serve the Duchy as the first line of defense against outside threats. \
@@ -92,7 +92,7 @@
 		/obj/item/signal_horn = 1,
 		/obj/item/hunting_map/boars = 1,
 		)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 	H.set_blindness(0)
 
 	if(H.mind)
