@@ -238,6 +238,16 @@
 	created_item = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	display_category = ITEM_CAT_ARMOR_BRACERS
 
+/datum/anvil_recipe/armor/aalloy/chainsleeves
+	name = "Chainsleeves, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
+
+/datum/anvil_recipe/armor/paalloy/chainsleeves
+	name = "Chainsleeves, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
+
 /datum/anvil_recipe/armor/aalloy/sandals
 	name = "Sandals, Decrepit"
 	req_bar = /obj/item/ingot/aalloy
@@ -417,6 +427,11 @@
 	display_category = ITEM_CAT_ARMOR_MASKS
 
 // IRON
+/datum/anvil_recipe/armor/iron/lightchainmail
+	name = "Haubyrine, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/light/iron
+	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/iron/haubergeon
 	name = "Haubergeon, Iron"
@@ -582,16 +597,29 @@
 	display_category = ITEM_CAT_ARMOR_BRACERS
 	createditem_num = 1
 
+/datum/anvil_recipe/armor/iron/chainsleeves
+	name = "Chainsleeves, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/iron/chain
+	createditem_num = 1
+
 /datum/anvil_recipe/armor/iron/jackchain
 	name = "Jack Chain, Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/wrists/roguetown/bracers/jackchain
 	display_category = ITEM_CAT_ARMOR_BRACERS
 
-/datum/anvil_recipe/armor/iron/boot
-	name = "Light Plated Boots, Iron"
+/datum/anvil_recipe/armor/iron/plateboot
+	name = "Plated Boots, Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	display_category = ITEM_CAT_ARMOR_BOOTS
+	createditem_num = 1
+
+/datum/anvil_recipe/armor/iron/mailleboot
+	name = "Maille Boots, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/shoes/roguetown/boots/maille/iron
 	display_category = ITEM_CAT_ARMOR_BOOTS
 	createditem_num = 1
 
@@ -678,6 +706,12 @@
 	display_category = ITEM_CAT_SMITHING_MISC
 
 // --------- STEEL RECIPES -----------
+/datum/anvil_recipe/armor/steel/lightchainmail
+	name = "Haubyrine, Steel"
+	req_bar = /obj/item/ingot/steel
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/light
+	display_category = ITEM_CAT_ARMOR_CHESTPIECES
+
 /datum/anvil_recipe/armor/steel/haubergeon
 	name = "Haubergeon, Steel"
 	req_bar = /obj/item/ingot/steel
@@ -853,18 +887,18 @@
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/steel/lightcuirass
+/datum/anvil_recipe/armor/steel/fencingcuirass
 	name = "Fencing Cuirass, Steel (+1 Steel, +1 Fencing Jacket)" //needs cooperation with a tailor to make
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel, /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/steel/lighthaubergeon
-	name = "Haubergeon, Fencing, Steel (+1 Steel, +1 Besilked Jacket)" //needs cooperation with a tailor to make
+/datum/anvil_recipe/armor/steel/fencinghaubergeon
+	name = "Fencing Haubergeon, Steel (+1 Steel, +1 Besilked Jacket)" //needs cooperation with a tailor to make
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel, /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket) //Quick patchwork to prevent loadouteers from gaming the system.
-	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/light/fencer
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked/fencer
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/steel/cuirass/legacy
@@ -893,6 +927,12 @@
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/clothing/wrists/roguetown/bracers
 	display_category = ITEM_CAT_ARMOR_BRACERS
+	createditem_num = 1
+
+/datum/anvil_recipe/armor/steel/chainsleeves
+	name = "Chainsleeves, Steel"
+	req_bar = /obj/item/ingot/steel
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/chain
 	createditem_num = 1
 
 /datum/anvil_recipe/armor/steel/helmetnasal
@@ -977,6 +1017,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/steel/helmetroundface
+	name = "Bascinet, Roundface, Steel (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/steel/etruscanbascinet
 	name = "Bascinet, Klappvisier, Steel (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
@@ -1034,11 +1081,18 @@
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/steel/beakhelm
-	name = "Beak helmet, Steel (+1 Steel)"
+	name = "Beak Helmet, Steel (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
 	display_category = ITEM_CAT_ARMOR_HELMETS
+
+/datum/anvil_recipe/armor/steel/mailleboot
+	name = "Maille Boots, Steel"
+	req_bar = /obj/item/ingot/steel
+	created_item = /obj/item/clothing/shoes/roguetown/boots/maille
+	display_category = ITEM_CAT_ARMOR_BOOTS
+	createditem_num = 1
 
 /datum/anvil_recipe/armor/steel/plateboot
 	name = "Plated Boots, Steel"
@@ -1200,14 +1254,14 @@
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/holysteel/abyssorhelm
-	name = "Abyssorite Helmet (+1 Holy Steel,+1 Cured Leather)"
+	name = "Abyssorite Helmet (+1 Holy Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steelholy
 	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/holysteel/necrahelm
-	name = "Necran Helmet (+1 Holy Steel,+1 Cured Leather)"
+	name = "Necran Helmet (+1 Holy Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steelholy
 	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm
@@ -1298,6 +1352,11 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/blessedsilver/greatplumearmetpsy
+	name = "Psydonic Greatplumed Armet"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/psy/greatplume
+
 /datum/anvil_recipe/armor/blessedsilver/helmsallpsy
 	name = "Psydonic Sallet"
 	req_bar = /obj/item/ingot/silverblessed
@@ -1318,21 +1377,21 @@
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/psyhalfplate
-	name = "Psydonic Half-Plate (+Psydonic Cuirass, +1 Blessed Silver, +2 Cured Leather)"
+	name = "Psydonic Half-Plate (+ Psydonic Cuirass, +1 Blessed Silver, +2 Cured Leather)"
 	req_bar = /obj/item/ingot/silverblessed
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate, /obj/item/ingot/silverblessed, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/blessedsilver/psyfullplate
-	name = "Psydonic Full-Plate (+Psydonic Half-Plate, +1 Blessed Silver, +2 Cured Leather)"
+	name = "Psydonic Full-Plate (+ Psydonic Half-Plate, +1 Blessed Silver, +2 Cured Leather)"
 	req_bar = /obj/item/ingot/silverblessed
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate, /obj/item/ingot/silverblessed, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/blessedsilver/psyfullplatealt
-	name = "Psydonic Full-Plate, Hauberked (+Psydonic Hauberk, +2 Blessed Silver, +2 Cured Leather)"
+	name = "Psydonic Full-Plate, Hauberked (+ Psydonic Plate-And-Maille, +2 Blessed Silver, +2 Cured Leather)"
 	req_bar = /obj/item/ingot/silverblessed
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate, /obj/item/ingot/silverblessed, /obj/item/ingot/silverblessed, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
@@ -1359,6 +1418,11 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/blessedsilver/greatplumearmetpsy/inq
+	name = "Psydonic Greatplumed Armet"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/psy/greatplume
+
 /datum/anvil_recipe/armor/blessedsilver/helmsallpsy/inq
 	name = "Psydonic Sallet"
 	req_bar = /obj/item/ingot/silverblessed/bullion
@@ -1379,21 +1443,21 @@
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/psyhalfplate/inq
-	name = "Psydonic Half-Plate (+Psydonic Cuirass, +1 Blessed Silver, +2 Cured Leather)"
+	name = "Psydonic Half-Plate (+ Psydonic Cuirass, +1 Blessed Silver, +2 Cured Leather)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate, /obj/item/ingot/silverblessed/bullion, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/blessedsilver/psyfullplate/inq
-	name = "Psydonic Full-Plate (+Psydonic Half-Plate, +1 Blessed Silver, +2 Cured Leather)"
+	name = "Psydonic Full-Plate (+ Psydonic Half-Plate, +1 Blessed Silver, +2 Cured Leather)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate, /obj/item/ingot/silverblessed/bullion, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/blessedsilver/psyfullplatealt/inq
-	name = "Psydonic Full-Plate, Hauberked (+Psydonic Hauberk, +2 Blessed Silver, +2 Cured Leather)"
+	name = "Psydonic Full-Plate, Hauberked (+ Psydonic Plate-And-Maille, +2 Blessed Silver, +2 Cured Leather)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	additional_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate, /obj/item/ingot/silverblessed/bullion, /obj/item/ingot/silverblessed/bullion, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate

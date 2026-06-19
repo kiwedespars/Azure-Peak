@@ -219,6 +219,7 @@
 				"Puncture" = /datum/wound/puncture,
 				"Bruise" = /datum/wound/bruise,
 				"Artery" = /datum/wound/artery,
+				"Integrity" = /datum/wound/integrity,
 				"Bite" = /datum/wound/bite,
 				"Dislocation" = /datum/wound/dislocation
 			)
@@ -226,16 +227,25 @@
 			if(wound_choice)
 				var/wound_path = wound_types[wound_choice]
 				// Apply body-part-specific wound variants
+				
 				if(wound_choice == "Fracture")
 					if(BP.body_zone == BODY_ZONE_HEAD)
 						wound_path = /datum/wound/fracture/head
 					else if(BP.body_zone == BODY_ZONE_CHEST)
 						wound_path = /datum/wound/fracture/chest
+				
 				else if(wound_choice == "Artery")
 					if(BP.body_zone == BODY_ZONE_HEAD)
 						wound_path = /datum/wound/artery/neck
 					else if(BP.body_zone == BODY_ZONE_CHEST)
 						wound_path = /datum/wound/artery/chest
+				
+				else if(wound_choice == "Integrity")
+					if(BP.body_zone == BODY_ZONE_HEAD)
+						wound_path = /datum/wound/integrity/neck
+					else if(BP.body_zone == BODY_ZONE_CHEST)
+						wound_path = /datum/wound/integrity/chest
+				
 				else if(wound_choice == "Dislocation")
 					if(BP.body_zone == BODY_ZONE_HEAD)
 						wound_path = /datum/wound/dislocation/neck
@@ -1236,6 +1246,17 @@
 			return
 
 		show_individual_logging_panel(M, href_list["log_src"], href_list["log_type"])
+	else if(href_list["examine_player"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/mob/living/target = locate(href_list["examine_player"]) in GLOB.mob_list
+		if(!isliving(target))
+			return
+
+		var/datum/examine_panel/mob_examine_panel = new(target)
+		mob_examine_panel.viewing = usr
+		mob_examine_panel.ui_interact(usr)
 	else if(href_list["languagemenu"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -1445,8 +1466,8 @@
 									ADD_TRAIT(living_mob, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
 							if(ishuman(O))
 								var/mob/living/carbon/human/spawned_human = O
-								spawned_human.taints_loot_on_death = !!href_list["taint_loot"]
-								if(!spawned_human.taints_loot_on_death)
+								spawned_human.taints_loot = !!href_list["taints_loot"]
+								if(!spawned_human.taints_loot)
 									for(var/obj/item/I in spawned_human.get_equipped_items(TRUE) + spawned_human.held_items)
 										I.unmark_as_looted()
 							if(where == "inhand" && isliving(usr) && isitem(O))

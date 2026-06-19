@@ -8,6 +8,15 @@
 	grid_width = 64
 	grid_height = 32
 
+/obj/item/rogueore/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+	else
+		return ..()
+		
+	return ..()
+
 /obj/item/rogueore/gold
 	name = "raw gold"
 	desc = "A clump of dirty lustrous nuggets!"
@@ -129,6 +138,7 @@
 	var/datum/anvil_recipe/currecipe
 	grid_width = 64
 	grid_height = 32
+	dropshrink = 0.8
 
 /obj/item/ingot/examine()
 	. += ..()
@@ -192,6 +202,12 @@
 		var/obj/machinery/anvil/A = loc
 		A.hingot = null
 		A.update_icon()
+
+/obj/item/ingot/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+	return ..()
 
 /obj/item/ingot/gold
 	name = "gold bar"
@@ -339,6 +355,12 @@
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
 
+/obj/item/ingot/bsslag
+	name = "blacksteel-speckled slag"
+	desc = "A mass of smoldered blacksteel, rendered lame from the forge's heat. It has taken its secrets to the grave." 
+	icon_state = "oreada"
+	sellprice = 7
+
 //Anomalous Smeltings
 /obj/item/ingot/weeping
 	name = "enduring ingot"
@@ -392,10 +414,13 @@
 
 /obj/item/ingot/avantyne
 	name = "avantyne wafer"
-	desc = "This ingot, though borne of unholy circumstance, rumbles with otherworldly potential. Chiseled onto the darksteel is a forbidden iteration of the psycross; a foreboding sign for those who bow to lesser gods."
+	desc = "This ingot, though born of unholy circumstance, rumbles with otherworldly potential. Chiseled onto the darksteel is a forbidden iteration of the psycross; a foreboding sign for those who bow to lesser gods."
 	icon_state = "ingotavantyne"
 	smeltresult = null
 	sellprice = 130
+
+/obj/item/ingot/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
 
 //Components!
 
@@ -447,7 +472,7 @@
 
 /obj/item/ingot/component/threadavantyne
 	name = "avantyne thread"
-	desc = "These strands, though borne of unholy circumstance, shimmer with otherworldly potential. Each wire of darksteel seem to twitch with vigor, whenever brought close to another alloy; like a parasite drawn to a host."
+	desc = "These strands, though born of unholy circumstance, shimmer with otherworldly potential. Each wire of darksteel seem to twitch with vigor, whenever brought close to another alloy; like a parasite drawn to a host."
 	icon_state = "component_avantynethread"
 	sellprice = 66
 
@@ -463,11 +488,17 @@
 	icon_state = "component_zizo"
 	dropshrink = 0.7
 
+/obj/item/ingot/component/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/ingot/component/graggar
 	name = "vicious fragment"
 	desc = "Bleeding fragments of an otherworldly alloy. </br>Murder is nothing more than justice without arbitration."
 	icon_state = "component_graggar"
 	dropshrink = 0.7
+
+/obj/item/ingot/component/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_MISC)
 
 /obj/item/ingot/component/matthios
 	name = "gilded fragment"
@@ -475,8 +506,14 @@
 	icon_state = "component_matthios"
 	dropshrink = 0.7
 
+/obj/item/ingot/component/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
+
 /obj/item/ingot/component/baotha
 	name = "saccharine fragment"
 	desc = "Aromatic fragments of an otherworldly alloy. </br>Despair is the gravest, most agonizing poison of them all."
 	icon_state = "component_baotha"
 	dropshrink = 0.7
+
+/obj/item/ingot/component/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)

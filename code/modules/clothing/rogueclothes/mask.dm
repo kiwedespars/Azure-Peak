@@ -26,6 +26,7 @@
 		user.update_inv_wear_mask()
 
 /obj/item/clothing/mask/rogue/AltRightClick(mob/user)
+	. = ..()
 	if(!istype(loc, /mob/living/carbon))
 		return
 	var/mob/living/carbon/H = user
@@ -173,6 +174,16 @@
 
 /obj/item/clothing/mask/rogue/spectacles/golden/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
+
+/obj/item/clothing/mask/rogue/spectacles/monocle
+	name = "silver monocle"
+	icon_state = "monocle"
+	max_integrity = 35
+
+/obj/item/clothing/mask/rogue/spectacles/sglasses
+	name = "smokey onyxa spectacles"
+	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it."
+	icon_state = "sglasses"
 
 /obj/item/clothing/mask/rogue/spectacles/Initialize()
 	..()
@@ -433,6 +444,9 @@
 
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/mask/rogue/facemask/steel/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	name = "ancient mask"

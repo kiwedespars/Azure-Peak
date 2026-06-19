@@ -2,6 +2,45 @@
 /mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE)
 	var/oldact = act
 	act = lowertext(act)
+
+	if(HAS_TRAIT(src, TRAIT_NOBREATH))
+		var/static/list/nobreath_blocked = list(
+			"choke",
+			"cough",
+			"snore",
+			"breathgasp",
+			"drown",
+			"sneeze"
+		)
+
+		if(act in nobreath_blocked)
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_IRONMAN))
+		var/static/list/ironman_blocked = list(
+			"pain",
+			"painmoan",
+			"paincrit",
+			"painscream",
+			"agony",
+			"drool"
+		)
+
+		if(act in ironman_blocked)
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_NOPAIN))
+		var/static/list/nopain_blocked = list(
+			"pain",
+			"painmoan",
+			"paincrit",
+			"painscream",
+			"agony",
+		)
+
+		if(act in nopain_blocked)
+			return FALSE
+
 	var/param = message
 	var/custom_param = findchar(act, " ")
 //	if(custom_param)
@@ -42,9 +81,25 @@
 
 /atom/movable/proc/send_speech_emote(message, range = 7, obj/source = src, bubble_type, list/spans, datum/language/message_language = null, message_mode, original_message)
 	var/rendered = compose_message(src, message_language, message, , spans, message_mode)
-	for(var/_AM in get_hearers_in_view(range, source))
+	var/list/hearers = get_hearers_in_view(range, source)
+	for(var/_AM in hearers)
 		var/atom/movable/AM = _AM
 		AM.Hear(rendered, src, message_language, message, , spans, message_mode)
+
+	if(SEND_SIGNAL(src, COMSIG_MOVABLE_QUEUE_BARK, hearers, args) || vocal_bark || vocal_bark_id)
+		for(var/mob/M in hearers)
+			if(!M.client)
+				continue
+			if((M.client.prefs.mute_barks))
+				hearers -= M
+		var/barks = min(round((LAZYLEN(message) / vocal_speed)) + 1, BARK_MAX_BARKS)
+		var/total_delay
+		vocal_current_bark = world.time //this is juuuuust random enough to reliably be unique every time send_speech() is called, in most scenarios
+		for(var/i in 1 to barks)
+			if(total_delay > BARK_MAX_TIME)
+				break
+			addtimer(CALLBACK(src, PROC_REF(bark), hearers, range, vocal_volume, BARK_DO_VARY(vocal_pitch, vocal_pitch_range), vocal_current_bark), total_delay)
+			total_delay += rand(DS2TICKS(vocal_speed / BARK_SPEED_BASELINE), DS2TICKS(vocal_speed / BARK_SPEED_BASELINE) + DS2TICKS(vocal_speed / BARK_SPEED_BASELINE)) TICKS
 //	if(intentional)
 //		to_chat(src, span_notice("Unusable emote '[act]'. Say *help for a list."))
 /*
