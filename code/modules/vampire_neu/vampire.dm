@@ -36,6 +36,12 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/max_thralls = 1
 	var/thrall_count = 0
 
+	var/STASTR = 12
+	var/STASPD = 12
+	var/STAWIL = 12
+	var/STACON = 12
+	var/STAPER = 12
+
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/crimson_fang, forced_clan = FALSE, generation)
 	. = ..()
 	if(forced_clan)
@@ -102,8 +108,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				max_thralls = 69
 			if(GENERATION_ANCILLAE)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
-				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE)
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE) // Masquerade round antagonist. They should be given a little bit more leeway.
+				vampdude?.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE)
 				max_thralls = 3
+				reset_stats()
 			if(GENERATION_NEONATE)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE) // Licker Wretch
@@ -143,6 +151,14 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, null)
 	if(HAS_TRAIT(owner, TRAIT_RAGE))
 		REMOVE_TRAIT(owner, TRAIT_RAGE, null)
+
+
+/datum/antagonist/vampire/proc/reset_stats()
+	owner.current.STASTR = max(owner.current.STASTR, src.STASTR)
+	owner.current.STAPER = max(owner.current.STAPER, src.STAPER)
+	owner.current.STASPD = max(owner.current.STASPD, src.STASPD)
+	owner.current.STAWIL = max(owner.current.STAWIL, src.STAWIL)
+	owner.current.STACON = max(owner.current.STACON, src.STACON)
 
 /datum/antagonist/vampire/proc/show_clan_selection(mob/living/carbon/human/vampdude)
 	if(!vampdude)
