@@ -32,7 +32,7 @@
 			var/integdam = max((IU.max_integrity / RIPOSTE_INTEG_DIVISOR), (INTEG_PARRY_DECAY_NOSHARP * 5))
 			if(IU.blade_dulling == DULLING_SHAFT_CONJURED)
 				integdam *= 2
-			IU.take_damage(integdam, BRUTE, IM.d_type)
+			IU.take_damage(integdam, BRUTE, "blunt")
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		if(H.mind)
