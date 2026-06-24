@@ -125,8 +125,8 @@
 	if(IU?.associated_skill)
 		skilldiff = skilldiff - HU.get_skill_level(IU.associated_skill)
 	else
-		skilldiff = HU.get_skill_level(/datum/skill/combat/unarmed)
-	
+		skilldiff = skilldiff - HU.get_skill_level(/datum/skill/combat/unarmed)
+
 	//Weapon checks.
 	var/lengthdiff = IM?.wlength - IU?.wlength //The longer the weapon the better.
 	var/wieldeddiff = IM?.wielded - IU?.wielded //If ours is wielded but theirs is not.
