@@ -31,6 +31,16 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
+		var/silvercross = FALSE
+		for(var/obj/item/clothing/neck/roguetown/psicross/silver/I in human_victim.contents)
+			silvercross = TRUE
+			break
+		if(VDrinker && silvercross)
+			to_chat(src, span_userdanger("SILVER CROSS! HISSS!!!"))
+			return
+		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
+			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
+			return
 		human_victim.add_bite_animation()
 
 	last_drinkblood_use = world.time
