@@ -140,8 +140,7 @@
 	var/datum/cb = CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, step_away_caster), owner)
 	for(var/i in 1 to 30)
 		addtimer(cb, (i - 1) * target.total_multiplicative_slowdown())
-	target.emote("scream")
-	target.do_jitter_animation(3 SECONDS)
+	target.freak_out()
 	to_chat(target, "<span class='userlove'><b>OH GOD, PLEASE SAVE ME!.</b></span>")
 	playsound(target,'sound/villain/wonder.ogg', 40)
 
@@ -250,7 +249,7 @@
 	level = 5
 	research_cost = 4
 	check_flags = COVEN_CHECK_CAPABLE|COVEN_CHECK_SPEAK
-	vitae_cost = 35
+	vitae_cost = 100
 	toggled = TRUE
 	cooldown_length = 90 SECONDS
 	duration_length = 5 SECONDS
