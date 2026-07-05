@@ -249,7 +249,7 @@
 	level = 5
 	research_cost = 4
 	check_flags = COVEN_CHECK_CAPABLE|COVEN_CHECK_SPEAK
-	vitae_cost = 100
+	vitae_cost = 125
 	toggled = TRUE
 	cooldown_length = 90 SECONDS
 	duration_length = 5 SECONDS
