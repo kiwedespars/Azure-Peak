@@ -35,12 +35,6 @@
 		for(var/obj/item/clothing/neck/roguetown/psicross/silver/I in human_victim.contents)
 			silvercross = TRUE
 			break
-		if(VDrinker && silvercross)
-			to_chat(src, span_userdanger("SILVER CROSS! HISSS!!!"))
-			return
-		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
-			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
-			return
 		human_victim.add_bite_animation()
 
 	last_drinkblood_use = world.time
@@ -71,10 +65,12 @@
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(1 SECONDS, 2 SECONDS))
 		return
 
-	if(victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
+	if(HAS_TRAIT(victim, TRAIT_BLACKBLOOD) || victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
 		to_chat(src, span_danger("I'm going to puke..."))
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
+
+	src.adjust_hydration(10) // da sippy
 
 	if(VVictim)
 		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
