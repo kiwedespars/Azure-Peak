@@ -327,7 +327,7 @@
 
 		target.stop_pulling()
 		if(target.cmode)
-			target.cmode = FALSE
+			target.toggle_cmode()
 
 /datum/coven_power/presence/majesty/proc/remove_majesty_effect(mob/living/target)
 	if(!target)
