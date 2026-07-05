@@ -31,10 +31,6 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
-		var/silvercross = FALSE
-		for(var/obj/item/clothing/neck/roguetown/psicross/silver/I in human_victim.contents)
-			silvercross = TRUE
-			break
 		human_victim.add_bite_animation()
 
 	last_drinkblood_use = world.time
