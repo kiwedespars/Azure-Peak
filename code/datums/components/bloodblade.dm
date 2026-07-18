@@ -26,7 +26,8 @@
 	if(counter > 1)
 		counter -= 1
 	else
-		Destroy()
+		remove()
+		qdel(src)
 
 /datum/component/bloodblade/proc/remove()
 	var/obj/item/I = parent
@@ -37,13 +38,10 @@
 	I.remove_filter("bloodblade")
 	return
 
-/datum/component/bloodblade/Destroy()
-	remove()
-	. = ..()
-
 /datum/component/bloodblade/proc/on_examine(datum/source, mob/user, list/examine_list)
 	examine_list += span_red("It's covered in <font color='["#0e0e0e"]'>sickly, black vitae</font>!")
 
 /datum/component/bloodblade/proc/timeout()
+	remove()
 	qdel(src)
 	return

@@ -197,6 +197,9 @@
 	if(!isliving(lastattacker))
 		to_chat(owner, span_warning("You don't seem to have last attacked soul earlier..."))
 		return FALSE
+	if(get_dist(owner, lastattacker) > 10)
+		to_chat(owner, span_warning("They're too far to curse."))
+		return FALSE
 	else
 		return .
 
@@ -271,7 +274,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/acidsplash/quietus
 	projectile_type = /obj/projectile/magic/acidsplash/quietus
-	invocations = list(" lobs a glob of acid!")
+	invocations = list("lobs a glob of acid!")
 	invocation_type = "emote"
 
 /obj/projectile/magic/acidsplash/quietus
@@ -284,9 +287,9 @@
 	playsound(src, 'sound/magic/bloodball.ogg', 100)
 
 	for(var/mob/living/L in range(aoe_range, get_turf(src))) //apply damage over time to mobs
-		var/mob/living/carbon/M = L
-		M.apply_status_effect(/datum/status_effect/buff/acidsplash)
-		M.reagents.add_reagent(/datum/reagent/bloodacid, 1)
-		new /obj/effect/temp_visual/acidsplash(get_turf(M))
+		if(!L.anti_magic_check())
+			L.apply_status_effect(/datum/status_effect/buff/acidsplash)
+			L.reagents.add_reagent(/datum/reagent/bloodacid, 1)
+			new /obj/effect/temp_visual/acidsplash(get_turf(L))
 	for(var/turf/turfs_in_range in range(aoe_range+1, T)) //make a splash
 		new /obj/effect/temp_visual/acidsplash(T)
