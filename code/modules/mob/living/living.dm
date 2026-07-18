@@ -142,7 +142,7 @@
 		var/mob_swap = FALSE
 		var/too_strong = (M.move_resist > move_force) //can't swap with immovable objects unless they help us
 		if(istype(M,/mob/living/simple_animal/hostile/retaliate))
-			if(!M:aggressive)
+			if(!M:aggressive && !M.client)
 				mob_swap = TRUE
 		if(!they_can_move) //we have to physically move them
 			if(!too_strong)
@@ -231,6 +231,10 @@
 				self_points -= 99
 				instafail = TRUE
 				to_chat(src, span_warning("I changed direction too late!"))
+			if(lying)
+				self_points -= 99
+				instafail = TRUE
+				to_chat(src, span_warning("I can't charge anyone from the ground!"))
 			var/clash_blocked
 			if(L.has_status_effect(/datum/status_effect/buff/clash) && !instafail)
 				self_points -= 99
@@ -725,6 +729,9 @@
 			say(word_input)
 		death()
 
+/mob/living/restrained(ignore_grab)
+	return ..() || istype(loc, /obj/item/mob_item)
+
 /mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = TRUE, check_immobilized = FALSE, ignore_stasis = FALSE)
 	if(stat || IsUnconscious() || IsStun() || IsParalyzed() || (!ignore_restraints && restrained(ignore_grab)))
 		return TRUE
@@ -776,6 +783,9 @@
 	if(pulledby)
 		to_chat(src, span_warning("I'm grabbed!"))
 		return
+	if(world.time < rest_locked_until)
+		to_chat(src, span_warning("I'm too charged with vigor to lie down!"))
+		return
 	if(!resting)
 		set_resting(TRUE, FALSE)
 
@@ -813,6 +823,9 @@
 		else
 			src.visible_message(span_warning("[src] struggles to stand up."))
 	else
+		if(world.time < rest_locked_until)
+			to_chat(src, span_warning("I'm too charged with vigor to lie down!"))
+			return
 		set_resting(TRUE, FALSE)
 
 /mob/living/proc/set_resting(rest, silent = TRUE)
@@ -1407,19 +1420,10 @@
 	return name
 
 /mob/living/float(on)
-	if(throwing)
-		return
-	var/fixed = 0
 	if(anchored || (buckled && buckled.anchored))
-		fixed = 1
-	if(on && !(movement_type & FLOATING) && !fixed)
-		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
-		sleep(10)
-		animate(src, pixel_y = pixel_y - 2, time = 10, loop = -1)
-		setMovetype(movement_type | FLOATING)
-	else if(((!on || fixed) && (movement_type & FLOATING)))
-		animate(src, pixel_y = get_standard_pixel_y_offset(lying), time = 10)
-		setMovetype(movement_type & ~FLOATING)
+		on = FALSE
+	..()
+
 
 // The src mob is trying to strip an item from someone
 // Override if a certain type of mob should be behave differently when stripping items (can't, for example)
@@ -1672,6 +1676,7 @@
 	var/datum/status_effect/fire_handler/fire_stacks/fire_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
 	var/datum/status_effect/fire_handler/fire_stacks/sunder/sunder_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
 	var/datum/status_effect/fire_handler/fire_stacks/divine/divine_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
+	var/datum/status_effect/fire_handler/fire_stacks/vheslyn/vheslyn_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
 	var/datum/status_effect/fire_handler/fire_stacks/sunder/blessed/blessed_sunder = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 
 	if(HAS_TRAIT(src, TRAIT_NOFIRE) && prob(90)) // Nofire is described as nonflammable, not immune. 90% chance of avoiding ignite
@@ -1682,6 +1687,9 @@
 
 	if(!divine_status?.on_fire)
 		divine_status?.ignite(silent)
+
+	if(!vheslyn_status?.on_fire)
+		vheslyn_status?.ignite(silent)
 
 	if(!sunder_status?.on_fire)
 		sunder_status?.ignite(silent)
@@ -1706,6 +1714,9 @@
 	var/datum/status_effect/fire_handler/fire_stacks/divine/divine_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
 	if(divine_status?.on_fire)
 		remove_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
+	var/datum/status_effect/fire_handler/fire_stacks/divine/vheslyn_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
+	if(vheslyn_status?.on_fire)
+		remove_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
 	var/datum/status_effect/fire_handler/fire_stacks/sunder/blessed/blessed_sunder = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 	if(blessed_sunder?.on_fire)
 		remove_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
@@ -1988,16 +1999,19 @@
 
 /mob/living/MouseDrop(mob/over)
 	. = ..()
-	var/mob/living/user = usr
-	if(!istype(over) || !istype(user))
+	var/mob/living/user = over
+	if(!istype(user))
 		return
-	if(!over.Adjacent(src) || (user != src) || !canUseTopic(over))
+	if(user.incapacitated())
 		return
-	if(can_be_held)
-		mob_try_pickup(over)
+	if(can_be_held(user))
+		mob_try_pickup(user)
 
 /mob/living/proc/mob_pickup(mob/living/L)
-	return
+	var/obj/item/mob_item/orb = become_item()
+	if(!istype(orb))
+		return
+	L.put_in_active_hand(orb)
 
 /mob/living/proc/mob_try_pickup(mob/living/user)
 	if(!ishuman(user))
@@ -2015,6 +2029,9 @@
 		return FALSE
 	mob_pickup(user)
 	return TRUE
+
+/mob/living/proc/can_be_held(mob/by)
+	return FALSE
 
 /mob/living/reset_perspective(atom/A)
 	if(..())

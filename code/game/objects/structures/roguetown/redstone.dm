@@ -210,12 +210,24 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	icon_state = "leverwall[toggled]"
 
 /obj/structure/lever/bookcase
-	name = "Bookcase"
+	name = "bookcase"
 	desc = "Refuge for few, an irrelevance to most."
 	icon_state = "booklever0"
 
+/obj/structure/lever/bookcase/examine(mob/user)
+	. = ..()
+	if(!isliving(user))
+		return
+	var/mob/living/L = user
+	if(HAS_TRAIT(L, TRAIT_INQUISITION))
+		. += span_notice("You recognize the subtle signs of a concealed mechanism, hidden in plain sight.")
+	else if(L.STAPER >= 15)
+		. += span_notice("There may be more to this shelf than meets the eye.")
+		L.emote("huh")
+
 /obj/structure/lever/bookcase/get_mechanics_examine(mob/user)
-	return
+	. = ..()
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
 /obj/structure/lever/bookcase/attack_hand(mob/user)
 	if(isliving(user))
@@ -371,7 +383,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/englauncher/proc/can_user_rotate(mob/user)
 	var/mob/living/L = user
 	if(istype(L))
-		if(!user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+		if(!user.canUseTopic(src, BE_CLOSE))
 			return FALSE
 		else
 			return TRUE
@@ -745,7 +757,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	return ..()
 */
 /obj/structure/floordoor/obj_break(damage_flag)
-	obj_flags = null
+	set_is_platform(FALSE)
+	obj_flags &= ~BLOCK_Z_IN_UP
 	..()
 
 /obj/structure/floordoor/redstone_triggered(mob/user)
@@ -754,20 +767,22 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	togg = !togg
 	if(togg)
 		icon_state = "[base_state]0"
-		obj_flags = null
+		set_is_platform(FALSE)
+		obj_flags &= ~BLOCK_Z_IN_UP
 		var/turf/T = loc
 		if(istype(T))
 			for(var/atom/movable/M in loc)
 				T.Entered(M)
 	else
 		icon_state = "[base_state]1"
-		obj_flags = BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+		set_is_platform(TRUE)
+		obj_flags |= BLOCK_Z_IN_UP
 
 /obj/structure/floordoor/open
-		icon_state = "floorhatch0"
-		base_state = "floorhatch"
-		togg = TRUE
-		obj_flags = null
+	icon_state = "floorhatch0"
+	base_state = "floorhatch"
+	togg = TRUE
+	obj_flags = null
 
 /obj/structure/floordoor/gatehatch
 	name = ""
@@ -795,7 +810,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if(togg)
 		sleep(delay2open)
 		icon_state = "[base_state]0"
-		obj_flags = null
+		set_is_platform(FALSE)
+		obj_flags &= ~BLOCK_Z_IN_UP
 		var/turf/T = loc
 		if(istype(T))
 			for(var/atom/movable/M in loc)
@@ -805,7 +821,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	else
 		sleep(delay2close)
 		icon_state = "[base_state]1"
-		obj_flags = BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+		set_is_platform(TRUE)
+		obj_flags |= BLOCK_Z_IN_UP
 		sleep(40-delay2close)
 		changing_state = FALSE
 

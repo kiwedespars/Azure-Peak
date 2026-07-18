@@ -116,6 +116,12 @@
 	if(mob.force_moving)
 		return FALSE
 
+	var/mob/living/sliding_mob = mob
+	var/datum/status_effect/ice_slide/ice_sliding = sliding_mob.has_status_effect(/datum/status_effect/ice_slide)
+	if(ice_sliding)
+		ice_sliding.steer(direct)
+		return FALSE
+
 	if(mob.shifting)
 		mob.pixel_shift(direct)
 		return FALSE
@@ -703,9 +709,12 @@
 		switch(intent)
 			if(MOVE_INTENT_SNEAK)
 				var/mob/living/L = src
-				m_intent = MOVE_INTENT_SNEAK
-				if(L.in_combat_until < world.time)
-					update_sneak_invis()
+				if(L.has_status_effect(/datum/status_effect/buff/fly))
+					to_chat(src, span_warning("I can't sneak while flying!"))
+				else
+					m_intent = MOVE_INTENT_SNEAK
+					if(L.in_combat_until < world.time)
+						update_sneak_invis()
 
 			if(MOVE_INTENT_WALK)
 				m_intent = MOVE_INTENT_WALK

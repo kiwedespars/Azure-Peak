@@ -18,7 +18,8 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = 2.5 SECONDS
-	charge_drain = 1
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 15 SECONDS
@@ -33,6 +34,7 @@
 
 /obj/projectile/magic/bloodlightning
 	name = "blood bolt"
+	expose_caster_on_deflect = TRUE
 	tracer_type = /obj/effect/projectile/tracer/blood
 	muzzle_type = null
 	impact_type = null

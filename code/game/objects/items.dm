@@ -78,8 +78,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/body_parts_covered_dynamic = 0
 	var/body_parts_inherent	= 0 //bodypart coverage areas that are always covered (chest on torso armor, hands on gloves, head on helmets, etc)
 	var/surgery_cover = TRUE // binary, whether this item is considered covering its bodyparts in respect to surgery. Tattoos, etc. are false.
-	/// If TRUE, this item counts toward location-accessibility coverage (mouthgrabs, surgery, etc.) even while worn in the skin_armor slot, which get_equipped_items() doesn't enumerate.
-	var/covers_in_skin_slot = FALSE
 	var/gas_transfer_coefficient = 1 // for leaking gas from turf to mask and vice-versa (for masks right now, but at some point, i'd like to include space helmets)
 	var/permeability_coefficient = 1 // for chemicals/diseases
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
@@ -332,6 +330,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					B.remove()
 					B.generate_appearance()
 					B.apply()
+				refresh_detail_overlay()
 				if (obj_broken)
 					update_damaged_state()
 			return
@@ -347,6 +346,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					update_damaged_state()
 			if(override_state)
 				icon_state = "[override_state]1"
+			refresh_detail_overlay()
 			return
 		if(gripsprite)
 			if(!override_state)
@@ -358,6 +358,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				B.remove()
 				B.generate_appearance()
 				B.apply()
+			refresh_detail_overlay()
 			if (obj_broken)
 				update_damaged_state()
 
@@ -850,25 +851,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/allow_attack_hand_drop(mob/user)
 	return TRUE
-
-/obj/item/attack_paw(mob/user)
-	if(!user)
-		return
-	if(anchored)
-		return
-
-	SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, user.loc, TRUE)
-
-	if(throwing)
-		throwing.finalize(FALSE)
-	if(loc == user)
-		if(!user.temporarilyRemoveItemFromInventory(src))
-			return
-
-	pickup(user)
-	add_fingerprint(user)
-	if(!user.put_in_active_hand(src, FALSE, FALSE))
-		user.dropItemToGround(src)
 
 /obj/item/proc/GetDeconstructableContents()
 	return GetAllContents() - src
@@ -1637,7 +1619,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				var/defense = "[SPAN_TOOLTIP("Each tier increases effective HP of the armor by 20%. Absorbed attacks never reach HP. The armor must be broken first.", "<u><b>ABSORB:</b></u>")] [colorgrade_rating("BLUNT", def_armor.blunt, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
 				defense += "[SPAN_TOOLTIP("Each tier reduces damage by 20% of base. Reduced damage still reaches HP. Armor absorbs what was blocked.", "<u><b>REDUCE:</b></u>")] [colorgrade_rating("BURN", def_armor.fire, elaborate = TRUE, max_tier = 5)]"
-				defense += " | [colorgrade_rating("ACID", def_armor.acid, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
 				defense += "[SPAN_TOOLTIP("Blocks attacks below this tier (Armor takes all damage). Same tier penetrates 20% (80% goes to armor). Exceeding tier penetrates fully.", "<u><b>BLOCK:</b></u>")] "
 				defense += "[colorgrade_rating("SLASH", def_armor.slash, elaborate = TRUE)] | "
@@ -1895,6 +1876,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return "Sworn Enemy"
 		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
 			return "Divine"
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return "Blessed"
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return "ALARMINGLY ODD"
 	return null
 
 /// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
@@ -1912,6 +1897,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FOE
 		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
 			return EXAMINEHIGHLIGHT_TOOLTIP_VIBE_CROWN
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return EXAMINEHIGHLIGHT_TOOLTIP_VIBE_GOLGATHA
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_VERYODD
 	return null
 
 /// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
@@ -1929,6 +1918,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return COLOR_VIBE_FOE
 		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
 			return COLOR_VIBE_CROWN
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return COLOR_VIBE_GOLGATHA
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return COLOR_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null
 	
 /// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
@@ -1946,4 +1939,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return SYMBOL_VIBE_FOE
 		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
 			return SYMBOL_VIBE_CROWN
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return SYMBOL_VIBE_GOLGATHA
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null
