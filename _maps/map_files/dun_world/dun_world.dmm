@@ -4922,14 +4922,10 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/goblinfort)
 "aXU" = (
-/obj/machinery/light/rogue/candle/blue/l{
-	pixel_x = 0;
-	pixel_y = -32
+/obj/structure/mannequin/male{
+	dir = 1
 	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/turf/open/floor/rogue/churchrough,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
 "aYi" = (
 /obj/machinery/light/rogue/candle,
@@ -21683,6 +21679,14 @@
 /obj/item/reagent_containers/glass/bottle/rogue/wine,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
+"egD" = (
+/obj/structure/mineral_door/wood/donjon/stone{
+	locked = 1;
+	lockid = "OEB4";
+	name = "Orthodoxist's Chambers IV"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/inq/basement)
 "egF" = (
 /obj/structure/roguewindow/harem3{
 	opacity = 1
@@ -36256,10 +36260,13 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog/skeletonfort)
 "gVb" = (
-/obj/structure/mannequin/male{
-	dir = 4
-	},
-/turf/open/floor/rogue/herringbone,
+/obj/structure/closet/crate/drawer,
+/obj/item/natural/bundle/cloth/bandage/full,
+/obj/item/needle,
+/obj/item/roguekey/inquisitionmanor,
+/obj/item/clothing/neck/roguetown/psicross/silver,
+/obj/structure/fluff/wallclock/r,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
 "gVd" = (
 /obj/effect/decal/cleanable/blood/gibs/core,
@@ -46108,9 +46115,6 @@
 	color = "#3f3f3f";
 	dir = 8
 	},
-/obj/effect/landmark/start/orthodoxist{
-	dir = 4
-	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "iLN" = (
@@ -54537,9 +54541,9 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/exposed/magiciantower)
 "kmF" = (
-/obj/structure/fluff/wallclock/r,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/inq/basement)
+/obj/structure/chair/stool/rogue,
+/turf/closed/wall/mineral/rogue/wooddark,
+/area/rogue/indoors/town)
 "kmJ" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/wood/herringbone,
@@ -55012,15 +55016,11 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/exposed/town/keep)
 "krZ" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
+/obj/effect/landmark/start/orthodoxist{
+	dir = 4
 	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 9
-	},
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/inq/basement)
+/turf/closed/mineral/random/rogue/high,
+/area/rogue/under/cave)
 "ksb" = (
 /obj/structure/closet/crate/chest/neu,
 /obj/machinery/light/rogue/candle/blue,
@@ -57442,14 +57442,10 @@
 /turf/open/lava/acid,
 /area/rogue/under/cave/his_vault/puzzle)
 "kPo" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
+/obj/structure/mannequin/male{
+	dir = 1
 	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 5
-	},
-/turf/open/floor/rogue/churchrough,
+/turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/basement)
 "kPp" = (
 /obj/item/reagent_containers/glass/bottle/rogue/wine{
@@ -59598,6 +59594,9 @@
 /obj/structure/roguemachine/vendor/inq_keys{
 	pixel_x = 32;
 	density = 0
+	},
+/obj/effect/landmark/start/orthodoxist{
+	dir = 4
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
@@ -78740,18 +78739,11 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/tavern)
 "oKC" = (
-/obj/structure/table/wood/poor,
-/obj/item/paper{
-	pixel_x = 9
+/obj/structure/bed/rogue/inn{
+	dir = 4
 	},
-/obj/item/flashlight/flare/torch/lantern{
-	pixel_x = -9
-	},
-/obj/structure/fluff/walldeco/psybanner/red{
-	pixel_y = 32
-	},
-/obj/item/natural/feather,
-/turf/open/floor/rogue/herringbone,
+/obj/item/bedsheet/rogue/pelt,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
 "oKF" = (
 /obj/effect/decal/cobbleedge{
@@ -83746,21 +83738,15 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "pGr" = (
-/obj/structure/table/wood/long_table/right,
-/obj/machinery/light/rogue/candle/blue/l{
-	pixel_x = 0;
-	pixel_y = 32
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
 	},
-/obj/item/candle/candlestick/silver/lit{
-	layer = 3.1;
-	pixel_x = 7;
-	pixel_y = 9
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
 	},
-/obj/item/book/rogue/bibble/psy{
-	pixel_x = -15;
-	pixel_y = 6
-	},
-/turf/open/floor/rogue/herringbone,
+/obj/machinery/light/rogue/candle/blue/l,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "pGv" = (
 /obj/structure/stairs/stone{
@@ -89384,6 +89370,9 @@
 	color = "#3f3f3f";
 	dir = 4
 	},
+/obj/effect/landmark/start/orthodoxist{
+	dir = 4
+	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "qHQ" = (
@@ -92388,12 +92377,16 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/basement)
 "rmh" = (
-/obj/structure/table/wood/poor,
-/obj/item/paper/scroll,
-/obj/structure/fluff/walldeco/painting/queen{
-	pixel_y = 32
+/obj/structure/table/wood/long_table/right,
+/obj/item/candle/candlestick/silver/lit{
+	layer = 3.1;
+	pixel_x = 7;
+	pixel_y = 9
 	},
-/obj/item/flowercrown/salvia,
+/obj/item/book/rogue/bibble/psy{
+	pixel_x = -15;
+	pixel_y = 6
+	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/basement)
 "rmi" = (
@@ -101331,10 +101324,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "sVz" = (
-/obj/machinery/light/rogue/candle/blue/l{
-	pixel_x = 32
-	},
-/turf/open/floor/rogue/herringbone,
+/obj/machinery/light/rogue/candle/r,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
 "sVA" = (
 /obj/effect/spawner/trap,
@@ -107557,12 +107548,21 @@
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/town)
 "ueJ" = (
-/obj/structure/closet/crate/drawer,
-/obj/item/natural/bundle/cloth/bandage/full,
-/obj/item/needle,
-/obj/item/roguekey/inquisitionmanor,
-/obj/item/clothing/neck/roguetown/psicross/silver,
-/turf/open/floor/carpet/red,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 5
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/machinery/light/rogue/candle/blue/l{
+	pixel_x = 32
+	},
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "ueK" = (
 /obj/effect/decal/cobbleedge{
@@ -116449,23 +116449,12 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "vOH" = (
-/obj/structure/fluff/walldeco/psybanner/red{
-	pixel_y = 32
-	},
-/obj/structure/table/wood/poor,
-/obj/item/reagent_containers/glass/bottle/rogue/redwine{
-	pixel_x = -5;
-	pixel_y = 4
-	},
-/obj/item/reagent_containers/glass/cup/silver{
-	pixel_x = 6;
-	pixel_y = 12
-	},
-/obj/item/reagent_containers/glass/cup/silver{
-	pixel_x = 11;
-	pixel_y = 3
-	},
-/turf/open/floor/rogue/herringbone,
+/obj/structure/closet/crate/drawer,
+/obj/item/clothing/neck/roguetown/psicross,
+/obj/item/needle,
+/obj/item/natural/bundle/cloth/bandage/full,
+/obj/item/storage/keyring,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
 "vOL" = (
 /obj/structure/closet/crate/roguecloset/inn,
@@ -120766,10 +120755,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/town)
-"wFx" = (
-/obj/machinery/light/rogue/firebowl/standing/blue,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/inq/basement)
 "wFy" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt/road,
@@ -250033,8 +250018,8 @@ qKm
 mIM
 esE
 uZW
-uZW
-uZW
+ogs
+ogs
 ogs
 ogs
 ogs
@@ -250485,8 +250470,8 @@ tPb
 msR
 msR
 uZW
-uZW
-uZW
+ogs
+ogs
 ogs
 ogs
 ogs
@@ -250937,8 +250922,8 @@ woW
 hHd
 cjI
 uZW
-uZW
-uZW
+ogs
+ogs
 ogs
 ogs
 ogs
@@ -251382,7 +251367,7 @@ sFe
 jsf
 uZW
 uZW
-aJp
+pro
 uZW
 uZW
 uZW
@@ -251390,10 +251375,10 @@ lkG
 uZW
 uZW
 uZW
+uZW
 xcV
 uZW
 uZW
-ogs
 ogs
 ogs
 ogs
@@ -251838,14 +251823,14 @@ wmu
 iLH
 txN
 bmS
-krZ
+evK
+pGr
 uZW
-gWq
-gVb
+nGl
+cjI
 hHd
-wFx
+ahs
 uZW
-ogs
 ogs
 ogs
 ogs
@@ -252288,16 +252273,16 @@ fuc
 qqp
 evK
 evK
+evK
 lfW
 evK
-aXU
-uZW
+swL
+pIW
+nGl
+hHd
+hHd
 fah
-hHd
-hHd
-ceo
 uZW
-ogs
 ogs
 ogs
 ogs
@@ -252742,14 +252727,14 @@ cUW
 bcO
 ljN
 qHP
-kPo
+cUW
+ueJ
 uZW
-pGr
+nGl
 hHd
 hHd
-jFO
+rmh
 uZW
-ogs
 ogs
 ogs
 ogs
@@ -253190,18 +253175,18 @@ evK
 jsf
 uZW
 uZW
-pro
+aJp
 uZW
 uZW
 uZW
-pIW
+egD
 uZW
+uZW
+uZW
+amR
+hHd
 gWq
-hHd
-hHd
-wJm
 uZW
-ogs
 ogs
 ogs
 ogs
@@ -253645,15 +253630,15 @@ lte
 hHd
 cjI
 uZW
-vOH
-hHd
-nGl
-hHd
-hHd
-hHd
-hHd
+cjI
+msR
+aXU
 uZW
-ogs
+ceo
+hHd
+hHd
+kPo
+uZW
 ogs
 ogs
 ogs
@@ -254097,15 +254082,15 @@ msR
 msR
 msR
 uZW
-rmh
-cjI
-nGl
 hHd
+msR
+vOH
+uZW
+jFO
 msR
 msR
 msR
 uZW
-ogs
 ogs
 ogs
 ogs
@@ -254549,15 +254534,15 @@ oRr
 txl
 xKv
 uZW
-oKC
+lte
 sVz
-nGl
-kmF
-ueJ
+oKC
+uZW
+wJm
+gVb
 hYN
 tdR
 uZW
-ogs
 ogs
 ogs
 ogs
@@ -255009,7 +254994,7 @@ uZW
 uZW
 uZW
 uZW
-ogs
+uZW
 ogs
 ogs
 ogs
@@ -261326,7 +261311,7 @@ qHj
 qHj
 qHj
 qHj
-qHj
+krZ
 qHj
 qHj
 qHj
@@ -262686,7 +262671,7 @@ phl
 phl
 gyu
 gyu
-cDX
+kmF
 gyu
 gyu
 cDX

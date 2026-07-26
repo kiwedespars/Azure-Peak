@@ -772,15 +772,21 @@
 
 /obj/item/roguekey/ortho_two
 	name = "Otavan Embassy Bedroom II key"
-	desc = "This key opens the doors to bedroom one."
+	desc = "This key opens the doors to bedroom two."
 	icon_state = "brownkey"
 	lockid = "OEB2"
 
 /obj/item/roguekey/ortho_three
 	name = "Otavan Embassy Bedroom III key"
-	desc = "This key opens the doors to bedroom one."
+	desc = "This key opens the doors to bedroom three."
 	icon_state = "brownkey"
 	lockid = "OEB3"
+
+/obj/item/roguekey/ortho_four
+	name = "Otavan Embassy Bedroom IV key"
+	desc = "This key opens the doors to bedroom four."
+	icon_state = "brownkey"
+	lockid = "OEB4"
 
 //////////////////////////
 // VAMPIRE / ANTAGONIST //
@@ -1096,4 +1102,4 @@
 			if(src.holdname)
 				KE.name = src.holdname
 			to_chat(user, span_notice("You add [src] to [K]."))
-			qdel(src)	
+			qdel(src)

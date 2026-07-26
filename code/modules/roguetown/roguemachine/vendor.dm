@@ -545,7 +545,7 @@
 /obj/structure/roguemachine/vendor/inq_keys/Initialize()
 	. = ..()
 
-	for (var/X in list(/obj/item/roguekey/ortho_one, /obj/item/roguekey/ortho_two, /obj/item/roguekey/ortho_three))
+	for (var/X in list(/obj/item/roguekey/ortho_one, /obj/item/roguekey/ortho_two, /obj/item/roguekey/ortho_three, /obj/item/roguekey/ortho_four))
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
