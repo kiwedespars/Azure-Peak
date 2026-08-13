@@ -38,12 +38,18 @@
 
 /obj/item/clothing/cloak/MiddleClick(mob/user)
 	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear [src] over my armor" : "wear [src] under my armor"]."))
 
-	alternate_worn_layer = overarmor ? TABARD_LAYER : UNDER_ARMOR_LAYER
+	var/restored_layer = initial(alternate_worn_layer) || TABARD_LAYER
+	alternate_worn_layer = overarmor ? restored_layer : UNDER_ARMOR_LAYER
+
+	var/where = "under my armor"
+	if(overarmor)
+		where = (restored_layer == CLOAK_BEHIND_LAYER) ? "behind me" : "over my armor"
+	to_chat(user, span_info("I wear [src] [where]."))
 
 	user.update_inv_cloak()
 	user.update_inv_armor()
+	user.update_inv_back()	//back-worn cloaks are drawn out of update_inv_back, and it keys off the layer we just changed
 
 /obj/item/clothing/cloak/bandolier
 	name = "bandolier"
@@ -1419,16 +1425,6 @@
 	body_parts_covered = CHEST|GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 
-/obj/item/clothing/cloak/templar/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
-
 /obj/item/clothing/cloak/cape/blkknight
 	name = "blood cape"
 	icon_state = "bkcape"
@@ -1584,7 +1580,24 @@
 	name = "hierophant's sash"
 	icon_state = "naledisash"
 	item_state = "naledisash"
+	color = null
+	detail_color = null
+	detail_tag = "_detail"
+	naledicolor = TRUE
 	desc = "A limp piece of fabric traditionally used to fasten bags that are too baggy, but in modern days has become more of a fashion statement than anything."
+
+/obj/item/clothing/cloak/hierophant/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/hierophant/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/cloak/tabard/stabard/grenzelmage
 	name = "grenzelhoftian magos mantle"
@@ -1790,16 +1803,6 @@
 	..()
 	update_icon()
 
-/obj/item/clothing/cloak/cotehardie/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the coat over my armor" : "wear the coat under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
-
 /obj/item/clothing/cloak/cotehardie/mageblue
 	color = CLOTHING_MAGE_BLUE
 
@@ -1883,3 +1886,15 @@
 	inhand_mod = TRUE
 	detail_tag = "_detail"
 	detail_color = "#405996"
+
+/obj/item/clothing/cloak/sash
+	name = "sash"
+	desc = "A large sash that can be draped across one's torso."
+	icon_state = "sash"
+	item_state = "sash"
+	boobed = FALSE
+	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_BACK_R|ITEM_SLOT_BACK_L|ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
