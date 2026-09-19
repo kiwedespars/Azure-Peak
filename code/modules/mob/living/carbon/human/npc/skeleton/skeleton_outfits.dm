@@ -40,8 +40,10 @@
 		/datum/outfit/job/roguetown/skeleton/npc/archer,
 	)
 
+// For underdark lich-miniboss + contracts - Cannot tame + different Spread
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
 	faction = list(FACTION_LICH)
+	skel_untamable = TRUE //No taming this group w/ tame undead
 	skel_outfit_spread = list(
 		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
 		/datum/outfit/job/roguetown/skeleton/npc/easy,
@@ -49,7 +51,8 @@
 		/datum/outfit/job/roguetown/skeleton/npc/hard,
 	)
 
-// for Lich Dungeon
+// for Lich Dungeon, albeit I think not entirely exclusive, so we don't add untamable
+//They're not re-factionised either unlike the above, sire.
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
 	skel_outfit_spread = list(
@@ -400,6 +403,44 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
 
+/datum/outfit/job/roguetown/skeleton/npc/fallenduke/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.STASTR = 15
+	H.STASPD = 12
+	H.STACON = 15
+	H.STAWIL = 13
+	H.STAINT = 5
+	name = "The Fallen 'Duke'"
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
+	neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
+	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	belt = /obj/item/storage/belt/rogue/leather/black
+	backl = /obj/item/storage/backpack/rogue/satchel/short/black
+	backpack_contents = list(/obj/item/clothing/head/roguetown/crown/fakecrown = 1, /obj/item/roguegem/diamond = 1)
+	r_hand = /obj/item/rogueweapon/sword/rapier/lord
+	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+	if(prob(25))
+		mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	if(prob(20))
+		beltl = /obj/item/repair_kit/bad
+	if(prob(15))
+		beltr = /obj/item/storage/belt/rogue/pouch/coins/aalloy
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
+
 /datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 8
@@ -448,4 +489,3 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
-
