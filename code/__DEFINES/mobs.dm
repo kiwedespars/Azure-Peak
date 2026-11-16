@@ -239,24 +239,6 @@
 #define SENTIENCE_MINEBOT 4
 #define SENTIENCE_BOSS 5
 
-//Mob AI Status
-
-//Hostile simple animals
-//If you add a new status, be sure to add a list for it to the simple_animals global in _globalvars/lists/mobs.dm
-#define AI_ON		1
-#define AI_IDLE		2
-#define AI_OFF		3
-#define AI_Z_OFF	4
-
-// these are exclusively for hostile humantype mobs
-#define NPC_AI_OFF		0
-#define NPC_AI_IDLE		1
-#define NPC_AI_COMBAT	2
-#define NPC_AI_RETREAT	3
-#define NPC_AI_HUNT		4
-#define NPC_AI_FLEE		5
-#define NPC_AI_SLEEP	6
-
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
 #define ENVIRONMENT_SMASH_STRUCTURES	(1<<0)	//crates, lockers, ect
@@ -291,6 +273,12 @@
 #define MEGAFAUNA_DEFAULT_RECOVERY_TIME 5
 
 #define SHADOW_SPECIES_LIGHT_THRESHOLD 0.2
+
+// recent examine defines
+/// How long it takes for an examined atom to be removed from recent_examines. Should be the max of the below time windows
+#define RECENT_EXAMINE_MAX_WINDOW (2 SECONDS)
+/// If you examine the same atom twice in this timeframe, we call examine_more() instead of examine()
+#define EXAMINE_MORE_WINDOW (1 SECONDS)
 
 // Offsets defines
 
@@ -369,7 +357,7 @@
 // one); the feminine keys are the fm.dmi values every human-shaped species already shared. Males on this
 // build read the masculine keys and females the feminine ones, as elves have always done.
 #define OFFSET_FEATURES_SLIM_REFERENCE list(\
-	OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,1), OFFSET_WRISTS = list(0,1), OFFSET_HANDS = list(0,0), \
+	OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,-1), OFFSET_WRISTS = list(0,-1), OFFSET_HANDS = list(0,0), \
 	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), \
 	OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), \
 	OFFSET_NECK = list(0,0), OFFSET_MOUTH = list(0,0), OFFSET_PANTS = list(0,0), \
@@ -381,12 +369,12 @@
 	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 	)
 
-// Offset table for the elven build: the slim table raised a pixel, except on the legs. A raised body lifts
+// Offset table for the elven build: the slim table raised a pixel, except on the legs and arms. A raised body lifts
 // the torso but leaves the feet planted, so the leg slots keep their slim values while everything hanging
 // off the body moves up with it. Written out in full so it reads the same way as its two neighbours.
 #define OFFSET_FEATURES_ELVEN_REFERENCE list(\
-	OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,2), OFFSET_WRISTS = list(0,2), \
-	OFFSET_HANDS = list(0,1), OFFSET_CLOAK = list(0,2), OFFSET_FACEMASK = list(0,1), \
+	OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,0), OFFSET_WRISTS = list(0,0), \
+	OFFSET_HANDS = list(0,0), OFFSET_CLOAK = list(0,2), OFFSET_FACEMASK = list(0,1), \
 	OFFSET_HEAD = list(0,1), OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), \
 	OFFSET_BACK = list(0,1), OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), \
 	OFFSET_PANTS = list(0,0), OFFSET_SHIRT = list(0,2), OFFSET_ARMOR = list(0,2), \
@@ -535,7 +523,7 @@
 #define SKIN_COLOR_SHALVISTINE "ac8369"
 #define SKIN_COLOR_LALVESTINE "9c6f52"
 #define SKIN_COLOR_NALEDI "4e3729"
-#define SKIN_COLOR_NALEDI_LIGHT "694d3b"
+#define SKIN_COLOR_NALEDI_LIGHT "5d4c41"
 #define SKIN_COLOR_NALEDI_B "602f1c"
 #define SKIN_COLOR_NALEDI_D "1c100b"
 #define SKIN_COLOR_KAZENGUN "dbcca9"
@@ -596,6 +584,9 @@
 #define SKIN_COLOR_MURKWALKER "716646"
 #define SKIN_COLOR_SHATTERHORN "D6D5E2"
 #define SKIN_COLOR_SPIRITCRUSHER "9D4D62"
+#define SKIN_COLOR_IRON_SPLINTER "5E575E"
+#define SKIN_COLOR_GLASS_CRAG "4F2519"
+#define SKIN_COLOR_DAEMONSCAR "4E3729"
 
 //TIEFLING SKIN TONES
 #define SKIN_COLOR_NESSYSS "C62D4C"

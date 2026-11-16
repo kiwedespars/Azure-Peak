@@ -234,48 +234,20 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	to_chat(src, "<font color='purple'>I gained [prayersesh] devotion!</font>")
 	return TRUE
 
-/mob/living/carbon/human/proc/changevoice()
-	set name = "Change Second Voice (Can only use Once!)"
-	set category = "RoleUnique.Virtue"
-
-	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
-	if(!V)
-		V = AddComponent(/datum/component/voice_handler)
-
-	var/newcolor = input(src, "Choose your character's SECOND voice color:", "VIRTUE","#a0a0a0") as color|null
-	if(!newcolor)
-		return FALSE
-	var/datum/descriptor_choice/VC = DESCRIPTOR_CHOICE(/datum/descriptor_choice/voice)
-	var/list/voice_options = list()
-	for(var/desc_type in VC.descriptors)
-		var/datum/mob_descriptor/D = MOB_DESCRIPTOR(desc_type)
-		if(D)
-			voice_options[D.name] = desc_type
-
-	var/picked_name = input(src, "Choose how your SECOND voice is described:", "VIRTUE") as null|anything in voice_options
-	if(!picked_name)
-		return FALSE
-	V.second_color = sanitize_hexcolor(newcolor, 6, TRUE)
-	V.second_desc_path = voice_options[picked_name]
-	to_chat(src, span_notice("Second voice configured: Color [V.second_color] with the '[picked_name]' description."))
-	remove_verb(src, /mob/living/carbon/human/proc/changevoice)
-	return TRUE
-
-/mob/living/carbon/human/proc/swapvoice()
-	set name = "Swap Voice"
-	set category = "RoleUnique.Virtue"
-
-	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
-	V.toggle_voice()
-
-/mob/living/carbon/human/proc/toggleblindness()
-	set name = "Toggle Colorblindness"
+/mob/living/carbon/human/proc/toggle_nitesight()
+	set name = "Toggle Nightvision"
 	set category = "RoleUnique.Virtue"
 
 	if(!get_client_color(/datum/client_colour/monochrome))
 		add_client_colour(/datum/client_colour/monochrome)
+		ADD_TRAIT(src, TRAIT_NITEVISION, "monochrome_sight")
+		visible_message(span_warning("[src]'s pupils sharpen into slits..."),
+			span_warning("My pupils sharpen into slits..."))
 	else
 		remove_client_colour(/datum/client_colour/monochrome)
+		REMOVE_TRAIT(src, TRAIT_NITEVISION, "monochrome_sight")
+		visible_message(span_warning("[src]'s pupils dilate back to normal."),
+			span_warning("My pupils dilate back to normal."))
 
 /mob/living/carbon/human/proc/togglecombatawareness()
 	set name = "Toggle Combat Awareness"
@@ -287,6 +259,11 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 		ADD_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE)
 	to_chat(src, "I will see [HAS_TRAIT(src, TRAIT_COMBAT_AWARE) ? "more" : "less"] combat information now.")
 
+
+/mob/living/carbon/human/proc/praysuicide()
+	set name = "Suicidal Prayer"
+	set category = "RoleUnique.Virtue"
+	emote("praysuicide", intentional = TRUE)
 
 /mob/living/carbon/human/proc/toggle_descriptors()
 	set name = "Toggle Anonimity"
@@ -308,6 +285,17 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	else
 		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")
+
+/mob/living/carbon/human/proc/toggle_light_steps()
+	set name = "Toggle Light Steps"
+	set category = "RoleUnique.Virtue"
+
+	if(HAS_TRAIT_FROM(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE))
+		REMOVE_TRAIT(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE)
+	else
+		ADD_TRAIT(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE)
+	update_move_intent_slowdown()
+	to_chat(src, "I [HAS_TRAIT_FROM(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE) ? "begin" : "stop"] stepping lightly.")
 
 
 // Not actually a virtue, but kept in the category for convenience. Miner-role only. Component handles all of the messaging and logic, this is just a wrapper, basically.

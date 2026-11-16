@@ -1,16 +1,11 @@
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE)
-	// Bandaid to undo no arm flaw prosthesis
-	if(LAZYLEN(charflaws))
-		var/obj/item/bodypart/O = character.get_bodypart(BODY_ZONE_R_ARM)
-		if(O)
+	// Bandaid to undo no arm flaw prosthesis. One arm at a time so worn gloves always keep a hand.
+	for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM))
+		var/obj/item/bodypart/O = character.get_bodypart(zone)
+		if(istype(O, /obj/item/bodypart/r_arm/prosthetic/woodright) || istype(O, /obj/item/bodypart/l_arm/prosthetic/woodleft))
 			O.drop_limb()
 			qdel(O)
-		O = character.get_bodypart(BODY_ZONE_L_ARM)
-		if(O)
-			O.drop_limb()
-			qdel(O)
-		character.regenerate_limb(BODY_ZONE_R_ARM)
-		character.regenerate_limb(BODY_ZONE_L_ARM)
+			character.regenerate_limb(zone)
 
 	var/datum/species/chosen_species
 	chosen_species = pref_species.type
@@ -33,7 +28,7 @@
 			else if(firstspace == name_length)
 				real_name += "[pick(GLOB.last_names)]"
 
-	if(real_name in GLOB.chosen_names)
+	if(real_name != character.real_name && (real_name in GLOB.chosen_names))
 		character.real_name = pref_species.random_name(gender)
 	else
 		character.real_name = real_name
@@ -64,20 +59,26 @@
 	character.dna.real_name = character.real_name
 
 	character.headshot_link = headshot_link
-
+	character.headshot_artist_credit = headshot_artist_credit
+	character.headshot_artist_link = headshot_artist_link
 	character.lich_headshot_link = lich_headshot_link
-
+	character.lich_headshot_artist_credit = lich_headshot_artist_credit
+	character.lich_headshot_artist_link = lich_headshot_artist_link
 	character.vampire_headshot_link = vampire_headshot_link
+	character.vampire_headshot_artist_credit = vampire_headshot_artist_credit
+	character.vampire_headshot_artist_link = vampire_headshot_artist_link
 
 	character.statpack = statpack
 
 	character.flavortext = flavortext
+	character.pen_name = pen_name
 	character.ooc_notes = ooc_notes
 	character.nsfwflavortext = nsfwflavortext
 	character.erpprefs = erpprefs
-	// Rumours / Noble gossip
+	// Rumours / Noble gossip / Secrets
 	character.rumour = rumour
 	character.noble_gossip = noble_gossip
+	character.secrets = secrets?.Copy()
 
 	// Copy the cached version
 	character.flavortext_cached = flavortext_cached
@@ -116,6 +117,9 @@
 	character.vocal_speed = bark_speed
 	character.vocal_pitch = bark_pitch
 	character.vocal_pitch_range = bark_variance
+
+	character.d_intent = (char_toggles & CHAR_TOGGLE_DODGE) ? INTENT_DODGE : INTENT_PARRY
+	character.freeuse = !!(char_toggles & CHAR_TOGGLE_FREEUSE)
 
 	if(parent)
 		var/list/L = get_player_curses(parent.ckey)

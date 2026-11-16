@@ -88,7 +88,7 @@
 	. = ..()
 	can_hold = typecacheof(list(/obj/item/roguekey))
 
-/datum/component/storage/concrete/roguetown/belt/knife_belt
+/datum/component/storage/concrete/roguetown/belt/tossbelt
 	screen_max_rows = 3		//Lets you hold a regular knife + keys basically.
 	screen_max_columns = 1
 
@@ -133,6 +133,23 @@
 	allow_quick_gather = FALSE
 	allow_quick_empty = FALSE
 
+/datum/component/storage/concrete/roguetown/basket
+	max_w_class = WEIGHT_CLASS_NORMAL
+	screen_max_rows = 3
+	screen_max_columns = 3
+	click_gather = TRUE
+
+/datum/component/storage/concrete/roguetown/trans
+	max_w_class = WEIGHT_CLASS_TINY
+	screen_max_rows = 5
+	screen_max_columns = 2
+	intercept_parent_attack = FALSE
+	intercept_parent_mousedrop = TRUE
+
+/datum/component/storage/concrete/roguetown/trans/New(datum/P, ...)
+	. = ..()
+	can_hold = typecacheof(list(/obj/item/alch/catalyst))
+
 /datum/component/storage/concrete/grid/meatsack // our rucksack is different from
 // Vanderlin so we use a separate one for meatsack
 	max_w_class = WEIGHT_CLASS_NORMAL
@@ -161,6 +178,22 @@
 		/obj/item/natural/head // this only works for animal heads
 		))
 
+/datum/component/storage/concrete/grid/meatsack/fish
+	max_w_class = WEIGHT_CLASS_BULKY
+
+/datum/component/storage/concrete/grid/meatsack/fish/New(datum/P, ...)
+	. = ..()
+	set_holdable(list(
+		/obj/item/reagent_containers/food/snacks/fish,
+		/obj/item/natural/worms,
+		/obj/item/natural/bundle/worms,
+		/obj/item/leechtick,
+		/obj/item/leechtick_bloated,
+		/obj/item/reagent_containers/food/snacks/rogue/cheddarslice,
+		/obj/item/reagent_containers/food/snacks/eoran_aril/cerulean,
+		/obj/item/fishing,
+		))
+
 /datum/component/storage/concrete/grid/magebag
 	max_w_class = WEIGHT_CLASS_NORMAL
 	click_gather = TRUE
@@ -180,7 +213,9 @@
 		/obj/item/herbseed,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom,
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
-		/obj/item/ash
+		/obj/item/natural/ash,
+		/obj/item/natural/bundle/ash,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius
 		))
 
 /datum/component/storage/concrete/roguetown/saddle

@@ -93,7 +93,7 @@
 
 /proc/sanitize_ooccolor(color)
 	var/list/HSL = rgb2hsl(hex2num(copytext(color,2,4)),hex2num(copytext(color,4,6)),hex2num(copytext(color,6,8)))
-	HSL[3] = min(HSL[3],0.4)
+	HSL[3] = max(HSL[3],0.6)
 	var/list/RGB = hsl2rgb(arglist(HSL))
 	return "#[num2hex(RGB[1],2)][num2hex(RGB[2],2)][num2hex(RGB[3],2)]"
 
@@ -126,5 +126,22 @@
 	if(find_index != 9)
 		if(!silent)
 			to_chat(usr, "<span class='warning'>The link must be hosted on one of the following sites: 'Gyazo, Lensdump, Imgbox, Catbox, File Garden'</span>")
+		return FALSE
+	return TRUE
+
+/// same as above, but without the site and extension checking. will prevent html injection and such, but will allow arbitrary links otherwise - use with caution
+/proc/valid_link(mob/user, value, silent = FALSE)
+	if(!length(value))
+		return FALSE
+
+	var/find_index = findtext(value, "https://")
+	if(find_index != 1)
+		if(!silent)
+			to_chat(user, "<span class='warning'>Your link must be https!</span>")
+		return FALSE
+
+	if(!findtext(value, ".") || findtext(value, "<") || findtext(value, ">") || findtext(value, "]") || findtext(value, "\["))	//there is no link in the world that would ever need < or >
+		if(!silent)
+			to_chat(user, "<span class='warning'>Invalid link!</span>")
 		return FALSE
 	return TRUE

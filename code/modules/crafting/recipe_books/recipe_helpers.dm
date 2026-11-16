@@ -35,6 +35,9 @@
 		temp_recipe = new path()
 		var/datum/alch_cauldron_recipe/r = temp_recipe
 		category = r.category
+	else if(ispath(path, /datum/transmutation_recipe))
+		var/datum/transmutation_recipe/r = path
+		category = r::category
 	else if(ispath(path, /datum/brewing_recipe))
 		temp_recipe = new path()
 		var/datum/brewing_recipe/r = temp_recipe
@@ -121,6 +124,13 @@
 		categories.Insert(1, "All")
 	return categories
 
+/proc/recipe_icon_html(path, mob/user)
+	if(!ispath(path, /atom))
+		return ""
+	var/atom/sample = new path()
+	. = icon2html(sample, user)
+	qdel(sample)
+
 /proc/generate_recipe_detail_html(path, mob/user)
 	if(istext(path) && SScooking?.auto_single_lookup[path])
 		var/datum/food_recipe/single_cook/auto = SScooking.auto_single_lookup[path]
@@ -175,6 +185,11 @@
 	else if(ispath(path, /datum/alch_cauldron_recipe))
 		temp_recipe = new path()
 		var/datum/alch_cauldron_recipe/r = temp_recipe
+		recipe_name = initial(r.name)
+		recipe_html = r.generate_html(user)
+	else if(ispath(path, /datum/transmutation_recipe))
+		temp_recipe = new path()
+		var/datum/transmutation_recipe/r = temp_recipe
 		recipe_name = initial(r.name)
 		recipe_html = r.generate_html(user)
 	else if(ispath(path, /datum/brewing_recipe))

@@ -9,9 +9,6 @@
 	icon_dead = "deep1_d"
 	gender = MALE
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
-	robust_searching = 1
-	turns_per_move = 2
-	move_to_delay = 3
 	STACON = 11
 	STASTR = 13
 	STASPD = 9
@@ -26,10 +23,6 @@
 	harm_intent_damage = 20
 	melee_damage_lower = 10
 	melee_damage_upper = 25
-	vision_range = 7
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
 	limb_destroyer = 0
 	base_intents = list(/datum/intent/simple/claw/deepone_unarmed)
 	attack_verb_continuous = "slashes"
@@ -41,9 +34,6 @@
 	threat_point = THREAT_HIGH
 	ambush_faction = "deepones"
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-
-	can_have_ai = FALSE
-	AIStatus = AI_OFF
 
 	ai_controller = /datum/ai_controller/deepone
 	move_base_delay = MOVEMENT_DELAY_SPD_10
@@ -74,8 +64,6 @@
 	projectiletype = /obj/projectile/bullet/reusable/deepone
 	projectilesound = 'sound/combat/wooshes/punch/punchwoosh (1).ogg'
 	ranged = 1
-	retreat_distance = 2
-	minimum_distance = 5
 	ranged_cooldown_time = 40
 	check_friendly_fire = 1
 	ai_controller = /datum/ai_controller/deepone_ranged
@@ -91,8 +79,6 @@
 	projectiletype = /obj/projectile/magic
 	projectilesound = 'sound/magic/fireball.ogg'
 	ranged = 1
-	retreat_distance = 2
-	minimum_distance = 5
 	ranged_cooldown_time = 70
 	check_friendly_fire = 1
 	ai_controller = /datum/ai_controller/deepone_ranged
@@ -103,13 +89,9 @@
 	projectiletype = pick(allowed_projectile_types)
 	..()
 /mob/living/simple_animal/hostile/rogue/deepone/wiz/boss
-	wander = FALSE
 /mob/living/simple_animal/hostile/rogue/deepone/spit/boss
-	wander = FALSE
 /mob/living/simple_animal/hostile/rogue/deepone/arm/boss
-	wander = FALSE
 /mob/living/simple_animal/hostile/rogue/deepone/boss
-	wander = FALSE
 /datum/intent/simple/claw/deepone_unarmed
 	attack_verb = list("claws", "strikes")
 	blade_class = BCLASS_CHOP
@@ -126,3 +108,58 @@
 	clickcd = DEEPONE_ATTACK_SPEED
 	penfactor = PEN_NONE
 	chargetime = 2
+
+/mob/living/simple_animal/hostile/rogue/deepone/hound
+	anatomy_type = /datum/anatomy/quadruped/standard
+	name = "depth hound"
+	desc = "Fish? Beast? How about both. It is said deep ones throw these dogs at birds to obtain such a rare delicacy."
+	icon = 'icons/roguetown/mob/monster/fishman.dmi'
+	icon_state = "deep_hound"
+	icon_living = "deep_hound"
+	icon_dead = "deep_hound_dead"
+	gender = MALE
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	STACON = 10
+	STASTR = 12
+	STASPD = 12
+	health = DEEPONE_HOUND_HEALTH
+	maxHealth = DEEPONE_HOUND_HEALTH
+	harm_intent_damage = 18
+	melee_damage_lower = 12
+	melee_damage_upper = 32
+	move_base_delay = MOVEMENT_DELAY_SPD_17
+	ai_controller = /datum/ai_controller/deepone_hound
+	var/pounce_type = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/deepone_pounce
+
+/mob/living/simple_animal/hostile/rogue/deepone/hound/Initialize(mapload)
+	. = ..()
+	var/datum/action/cooldown/spell/telegraphed_strike/mob_ability/deepone_pounce/pounce = new pounce_type(src)
+	pounce.Grant(src)
+
+/mob/living/simple_animal/pet/depth_hound
+	anatomy_type = /datum/anatomy/quadruped/standard
+	name = "depth doggy"
+	desc = "Good boy?"
+	icon = 'icons/roguetown/mob/monster/fishman.dmi'
+	icon_state = "deep_hound"
+	icon_living = "deep_hound"
+	icon_dead = "deep_hound_dead"
+	gender = MALE
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	speak = list("Gurgle...", "Chrk-chrk!", "Glub!", "Squeeech!")
+	speak_emote = list("gurgles", "clicks its teeth", "snarls softly")
+	emote_hear = list("clicks its jaws.", "makes a low wet gurgle.")
+	emote_see = list("shakes sea foam from its back.", "scratches its webbed ears.")
+	speak_chance = 2
+	ai_controller = /datum/ai_controller/generic/critter
+	see_in_dark = 6
+	health = DEEPONE_HOUND_HEALTH
+	maxHealth = DEEPONE_HOUND_HEALTH
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
+	response_disarm_continuous = "gently pushes aside"
+	response_disarm_simple = "gently push aside"
+	response_harm_continuous = "kicks"
+	response_harm_simple = "kick"
+	gold_core_spawnable = FRIENDLY_SPAWN
+	footstep_type = FOOTSTEP_MOB_CLAW

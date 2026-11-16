@@ -31,6 +31,8 @@
 	var/npc_max_range = 1
 	var/npc_requires_los = TRUE
 	var/self_targetable = FALSE
+	var/npc_escape = FALSE
+	var/npc_retry_at = 0
 	/// Anatomy gate - the ability is unavailable while any of these zones is broken.
 	var/list/required_zones
 	/// The cooldown added onto the user's next click.
@@ -238,6 +240,9 @@
 /datum/action/cooldown/proc/ai_commit_time()
 	return 0
 
+/datum/action/cooldown/proc/npc_cast_target(atom/target)
+	return target
+
 /datum/action/cooldown/proc/can_use(atom/target)
 	if(QDELETED(target))
 		return FALSE
@@ -382,10 +387,28 @@
 		if("Spitfire")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
 		if("Frost Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frostbolt)
 		if("Arc Bolt")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
 		if("Greater Arcyne Bolt")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
 		if("Arcyne Lance")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+
+/proc/grant_poke_spell_zizo(mob/living/carbon/human/user) // antag-poke spells, balanced around John Zizoplate casting this without penalty. Or missionary adv w/ heals on top. Etc.
+	var/list/poke_options = list("Spitfire", "Arc Bolt", "Greater Arcyne Bolt", "Arcyne Lance", "Arcyne Diagnosis + Arcyne Analyze")
+	var/poke_choice = tgui_input_list(user, "Choose your cantrip.", "Arcyne Progress", poke_options)
+	if(!poke_choice || !user.mind)
+		return
+	switch(poke_choice)
+		if("Spitfire")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
+		if("Arc Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
+		if("Greater Arcyne Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
+		if("Arcyne Lance")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+		if("Arcyne Diagnosis + Arcyne Analyze") //tradeoff frag power for utility power
+			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo)
+			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)

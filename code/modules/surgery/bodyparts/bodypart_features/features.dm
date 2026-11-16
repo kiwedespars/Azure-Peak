@@ -16,6 +16,16 @@
 	/// Fallback reference check in case future code mutates masks without bumping a version.
 	var/list/custom_overlay_ref
 
+/datum/bodypart_feature/hair/copy_feature()
+	var/datum/bodypart_feature/hair/copy = ..()
+	copy.hair_color = hair_color
+	copy.natural_gradient = natural_gradient
+	copy.natural_color = natural_color
+	copy.hair_dye_gradient = hair_dye_gradient
+	copy.hair_dye_color = hair_dye_color
+	copy.colormasks = colormasks?.Copy()
+	return copy
+
 /datum/bodypart_feature/hair/bodypart_icon(mutable_appearance/standing)
 	return
 
@@ -208,3 +218,13 @@
 	owner.legwear_socks = legwear_item
 	legwear_item.legwears_feature = src
 	legwear_item.color = accessory_colors
+
+/datum/bodypart_feature/pubes
+	name = "Pubic Hair"
+	feature_slot = BODYPART_FEATURE_PUBES
+	body_zone = BODY_ZONE_CHEST
+
+/datum/bodypart_feature/pits
+	name = "Armpit Hair"
+	feature_slot = BODYPART_FEATURE_PITS
+	body_zone = BODY_ZONE_CHEST

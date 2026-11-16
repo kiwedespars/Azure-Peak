@@ -10,6 +10,7 @@ import { Tooltip } from 'tgui-core/components';
 import { EventEmitter } from 'tgui-core/events';
 import { classes } from 'tgui-core/react';
 import type { HighlightSetting } from 'tgui-panel/settings/types';
+import { RollTooltip } from '../chat_components/RollTooltip';
 import { TooltipHTML } from '../chat_components/TooltipHTML';
 import { store } from '../events/store';
 import { scrollTrackingAtom } from './atom';
@@ -44,6 +45,7 @@ const SCROLL_TRACKING_TOLERANCE = 24;
 export const TGUI_CHAT_COMPONENTS: Record<string, React.ComponentType<any>> = {
   Tooltip,
   TooltipHTML,
+  RollTooltip,
 };
 
 // List of injectable attibute names mapped to their proper prop.
@@ -151,6 +153,7 @@ class ChatRenderer {
   scrollNode: HTMLElement | null;
   scrollTracking: boolean;
   lastScrollHeight: number;
+  lastScrollTop: number;
   highlightParsers: Array<any> | null = null;
   handleScroll: (type: any) => void;
 
@@ -167,21 +170,20 @@ class ChatRenderer {
     this.scrollNode = null;
     this.scrollTracking = true;
     this.lastScrollHeight = 0;
+    this.lastScrollTop = 0;
     this.handleScroll = (evt) => {
       const node = this.scrollNode;
       if (!node) {
         return;
       }
-      const height = node.scrollHeight;
-      const bottom = node.scrollTop + node.offsetHeight;
-      const scrollTracking =
-        Math.abs(height - bottom) < SCROLL_TRACKING_TOLERANCE ||
-        this.lastScrollHeight === 0;
-      if (scrollTracking !== this.scrollTracking) {
-        this.scrollTracking = scrollTracking;
-        store.set(scrollTrackingAtom, scrollTracking);
-        logger.debug('tracking', this.scrollTracking);
-      }
+      const scrollTop = node.scrollTop;
+      const movedUp = scrollTop < this.lastScrollTop - 1;
+      this.lastScrollTop = scrollTop;
+      this.setScrollTracking(
+        this.isAtBottom() ||
+          this.lastScrollHeight === 0 ||
+          (this.scrollTracking && !movedUp),
+      );
     };
     // Guard against navigating the panel away via a chat link
     document.addEventListener('click', handleLinkClick, true);
@@ -325,10 +327,26 @@ class ChatRenderer {
     });
   }
 
+  isAtBottom() {
+    const node = this.scrollNode!;
+    const bottom = node.scrollTop + node.offsetHeight;
+    return Math.abs(node.scrollHeight - bottom) < SCROLL_TRACKING_TOLERANCE;
+  }
+
+  setScrollTracking(scrollTracking: boolean) {
+    if (scrollTracking !== this.scrollTracking) {
+      this.scrollTracking = scrollTracking;
+      store.set(scrollTrackingAtom, scrollTracking);
+      logger.debug('tracking', this.scrollTracking);
+    }
+  }
+
   scrollToBottom() {
     // scrollHeight is always bigger than scrollTop and is
     // automatically clamped to the valid range.
-    this.scrollNode!.scrollTop = this.scrollNode!.scrollHeight;
+    const node = this.scrollNode!;
+    node.scrollTop = node.scrollHeight;
+    this.lastScrollTop = node.scrollTop;
   }
 
   changePage(page: any) {
@@ -396,6 +414,9 @@ class ChatRenderer {
     }
     // Store last scroll position
     if (this.scrollNode) {
+      if (!this.scrollTracking && this.isAtBottom()) {
+        this.setScrollTracking(true);
+      }
       this.lastScrollHeight = this.scrollNode.scrollHeight;
     }
     // Insert messages
@@ -602,6 +623,8 @@ class ChatRenderer {
         this.messages = this.messages.filter(
           (message) => message.node !== 'pruned',
         );
+
+        this.scrollToBottom();
         logger.log(`pruned ${fromIndex} visible messages`);
       }
     }
